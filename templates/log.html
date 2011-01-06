@@ -1,0 +1,30 @@
+{% extends "index.html" %}
+
+{% block title %}Log entry details{% endblock %}
+
+{% block content %}
+<section>
+  <h3>Log message #{{ log._id }}</h3>
+
+  <table>
+    <thead>
+      <tr>
+	{% for f in log %}
+	{% if f != "_id" %}
+	<th>{{ f|capitalize }}</th>
+	{% endif %}
+	{% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+	{% for f in log %}
+	{% if f != "_id" %}
+	<td>{{ log[f] }}</td>
+	{% endif %}
+	{% endfor %}
+      </tr>
+    </tbody>
+  </table>
+</section>
+{% endblock %}

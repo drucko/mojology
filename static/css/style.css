@@ -1,0 +1,119 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font: 12px/14px Arial, Helvetica, sans-serif;
+	color: #666;
+	text-align: left;
+	background: #f7f7f7 url(../images/background.gif) repeat-x;
+}
+
+/* Styles */
+
+a { color: #0088cc; text-decoration: none;}
+a:hover { text-decoration: underline;}
+a img { border: none;}
+
+p { margin: 0px 0px 20px 0px; line-height: 18px;}
+
+ul { margin: 5px 0px 15px 0px; padding: 0px;}
+li { margin-left: 20px;}
+
+#notice {
+	clear: both;
+	margin: 0 0 15px;
+	padding: 0 10px;
+	background: #fffbcc;
+	border: 1px solid #e6db55;
+	line-height: 25px;
+	color: #222;
+}
+
+#succeed {
+	clear: both;
+	margin: 0 0 15px;
+	padding: 0 10px;
+	background: #d1ecb8;
+	border: 1px solid #81c445;
+	line-height: 25px;
+	color: #222;
+}
+
+#error {
+	clear: both;
+	margin: 0 0 15px;
+	padding: 0 10px;
+	background: #ffebe8;
+	border: 1px solid #f0baa2;
+	line-height: 25px;
+	color: #222;
+}
+
+.clear { clear:both;}
+
+/* Header */
+
+header {
+	height: 45px;
+	margin: 0 auto;
+	padding: 0 20px;
+	max-width: 1280px;
+	min-width: 760px;
+}
+
+header h1 {
+	float: left;
+	font: bold 20px/21px Helvetica, Arial, sans-serif;
+	line-height: 45px;
+}
+
+header h1 a {
+	color: #fff;
+	text-decoration: none;
+}
+
+header h1:first-letter {
+	color: #8f8;
+}
+
+body > section {
+	margin: 0 auto;
+	padding: 25px 20px;
+	max-width: 1280px;
+	min-width: 760px;
+}
+
+body > section h2 {
+	margin: 0 0 10px;
+	font: bold 20px/21px Helvetica, Arial, sans-serif;
+	color: #333;
+}
+
+section section {
+	margin: 0 0 20px;
+	padding: 15px 15px 0 15px;
+	border: 1px solid #e8e8e8;
+	background: #fff;
+	position: relative;
+}
+
+/* Content */
+
+section section {
+}
+
+section section h3 {
+	margin: 0 0 15px;
+	padding: 0 0 10px;
+	color: #222;
+	font-size: 16px;
+	border-bottom: 1px dotted #d2d2d2;
+}
+
+section section h4 {
+	margin: 0 0 15px;
+	color: #222;
+	font-size: 14px;
+}
