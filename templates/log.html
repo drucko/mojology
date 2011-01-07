@@ -16,10 +16,10 @@
     </thead>
     <tbody>
       <tr>
-	<td>{{ log.date|datetime }}</td>
-	<td>{{ log.host }}</td>
-	<td>{{ log.log.facility }}.{{ log.log.level }}</td>
-	<td>{{ log.program.name }}{% if log.program.pid %}[{{ log.program.pid }}]{% endif %}</td>
+	<td class="nowrap">{{ log.date|datetime }}</td>
+	<td class="nowrap">{{ log.host }}</td>
+	<td class="nowrap">{{ log.log.facility }}.{{ log.log.level }}</td>
+	<td class="nowrap">{{ log.program.name }}{% if log.program.pid %}[{{ log.program.pid }}]{% endif %}</td>
 	<td>{{ log.message }}</td>
       </tr>
     </tbody>
