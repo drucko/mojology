@@ -28,19 +28,15 @@
   <table id="dynamic_values">
     <thead>
       <tr>
-	{% for f in log.dyn %}
-	{% if f != "_id" %}
+	{% for f in dyn_vars %}
 	<th>{{ f }}</th>
-	{% endif %}
 	{% endfor %}
       </tr>
     </thead>
     <tbody>
       <tr>
-	{% for f in log.dyn %}
-	{% if f != "_id" %}
-	<td>{{ mojology_dump (log.dyn[f]) | safe }}</td>
-	{% endif %}
+	{% for f in dyn_vars %}
+	<td>{{ mojology_dump (dyn_vars[f]) | safe }}</td>
 	{% endfor %}
       </tr>
     </tbody>
