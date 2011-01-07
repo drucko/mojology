@@ -56,6 +56,12 @@ def get_logs (spec, page, extra = None):
 def dashboard (page = 1):
     return get_logs (None, page)
 
+@app.route ("/about")
+@app.route ("/about/")
+@templated ()
+def about ():
+    return None
+
 @app.route ("/host/<hostname>")
 @app.route ("/host/<hostname>/page/<int(min=1):page>")
 @templated ()
