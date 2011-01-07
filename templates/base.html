@@ -45,7 +45,7 @@
 	    {% for log in logs %}
 	    <tr class="{{ loop.cycle ('odd', 'even') }}">
 	      <td><a href="{{ url_for ("log", logid = log._id) }}">+</a></td>
-	      <td>{{ log.date }}</td>
+	      <td>{{ log.date|datetime }}</td>
 	      <td><a href="{{ url_for ("host", hostname = log.host) }}">{{ log.host }}</a></td>
 	      <td>{{ log.message|truncate(length=100) }}</td>
 	    </tr>

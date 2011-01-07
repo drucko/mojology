@@ -3,6 +3,8 @@ from __future__ import with_statement
 
 from flask import Flask, g, abort
 import pymongo, pymongo.objectid
+import datetime
+
 from mojology.utils import templated
 
 app = Flask (__name__)
@@ -15,6 +17,10 @@ config = {
         'coll': 'messages'
     },
 }
+
+@app.template_filter ('datetime')
+def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
+    return datetime.datetime.fromtimestamp (float (value)).strftime (format)
 
 @app.before_request
 def connect_mongo ():
