@@ -57,7 +57,7 @@
 	  {% if page > 1 %}
 	  <span id="prev">
 	    {% if hostname %}
-	    <a href="{{ url_for ('host', hostname = host, page = page - 1) }}">&laquo; Previous</a>
+	    <a href="{{ url_for ('host', hostname = hostname, page = page - 1) }}">&laquo; Previous</a>
 	    {% else %}
 	    <a href="{{ url_for ('dashboard', page = page - 1) }}">&laquo; Previous</a>
 	    {% endif %}
@@ -67,7 +67,7 @@
 	  {% if page < maxpage %}
 	  <span id="next">
 	    {% if hostname %}
-	    <a href="{{ url_for ('host', hostname = host, page = page + 1) }}">Next &raquo;</a>
+	    <a href="{{ url_for ('host', hostname = hostname, page = page + 1) }}">Next &raquo;</a>
 	    {% else %}
 	    <a href="{{ url_for ('dashboard', page = page + 1) }}">Next &raquo;</a>
 	    {% endif %}
