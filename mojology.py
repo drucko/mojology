@@ -37,6 +37,8 @@ def get_logs (spec, page, extra = None):
                                   skip = (page - 1) * 15, limit = 15),
               maxpage = g.coll.find (spec = spec).count () / 15 + 1,
               page = page)
+    if page > l['maxpage']:
+        abort (404)
     if extra:
         l.update (extra)
     return l
