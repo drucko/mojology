@@ -30,7 +30,7 @@
 
       {% block content %}
       <section>
-	<h3>Latest log messages {% block content_header %}{% endblock %}</h3>
+	<h3>Latest log messages {% block content_header %}{% endblock %}, page #{{ page }} of {{ maxpage }}</h3>
 
 	<table>
 	  <thead>
@@ -52,6 +52,12 @@
 	    {% endfor %}
 	  </tbody>
 	</table>
+
+	<nav>
+	  {% if hostname %}{% set endpoint = 'host' %}{% else %}{% set endpoint = 'dashboard' %}{% endif %}
+	  {% if page > 1 %}<a href="{{ url_for (endpoint, hostname = hostname, page = page - 1 ) }}">&lt;&lt;</a>{% endif %}
+	  {% if page < maxpage %}<a href="{{ url_for (endpoint, hostname = hostname, page = page + 1 ) }}">&gt;&gt;</a>{% endif %}
+	</nav>
       {% endblock %}
     </section>
   </body>

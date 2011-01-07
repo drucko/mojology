@@ -26,21 +26,29 @@ def connect_mongo ():
         abort (500)
     g.coll = g.mongo[config['mongodb']['db']][config['mongodb']['coll']]
 
+def get_logs (spec, page, extra = None):
+    l = dict (logs = g.coll.find (spec = spec, sort = [('date', -1)],
+                                  skip = (page - 1) * 15, limit = 15),
+              maxpage = g.coll.find (spec = spec).count () / 15 + 1,
+              page = page)
+    if extra:
+        l.update (extra)
+    return l
+    
 @app.route ("/")
+@app.route ("/page/<int:page>")
 @templated ()
-def dashboard ():
-    logs = g.coll.find (sort = [('date', -1)], limit = 15)
-    return dict (logs = logs)
+def dashboard (page = 1):
+    return get_logs (None, page)
 
-@app.route("/host/<hostname>")
+@app.route ("/host/<hostname>")
+@app.route ("/host/<hostname>/page/<int:page>")
 @templated ()
-def host(hostname):
-    logs = g.coll.find (spec = {'host': hostname},
-                        sort = [('date', -1)], limit = 15)
-    if logs.count () == 0:
+def host(hostname, page = 1):
+    d = get_logs ({'host': hostname}, page, { 'hostname': hostname })
+    if d['logs'].count () == 0:
         abort (404)
-    return dict (logs = logs,
-                 hostname = hostname)
+    return d
 
 @app.route("/log/<logid>")
 @templated ()
