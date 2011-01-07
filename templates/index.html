@@ -30,7 +30,7 @@
 
       {% block content %}
       <section>
-	<h3>Latest log messages</h3>
+	<h3>Latest log messages {% block content_header %}{% endblock %}</h3>
 
 	<table>
 	  <thead>
@@ -46,7 +46,7 @@
 	    <tr class="{{ loop.cycle ('odd', 'even') }}">
 	      <td><a href="{{ url_for ("log", logid = log._id) }}">+</a></td>
 	      <td>{{ log.date }}</td>
-	      <td>{{ log.host }}</td>
+	      <td><a href="{{ url_for ("host", hostname = log.host) }}">{{ log.host }}</a></td>
 	      <td>{{ log.message|truncate(length=100) }}</td>
 	    </tr>
 	    {% endfor %}

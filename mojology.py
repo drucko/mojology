@@ -30,6 +30,15 @@ def dashboard ():
     logs = g.coll.find (sort = [('date', -1)], limit = 15)
     return render_template ("index.html", logs = logs)
 
+@app.route("/host/<hostname>")
+def host(hostname):
+    logs = g.coll.find (spec = {'host': hostname},
+                        sort = [('date', -1)], limit = 15)
+    if logs.count () == 0:
+        abort (404)
+    return render_template ("host.html", logs = logs,
+                            hostname = hostname)
+
 @app.route("/log/<logid>")
 def log (logid):
     try:
