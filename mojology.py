@@ -1,26 +1,47 @@
 #! /usr/bin/env python
 from __future__ import with_statement
 
-from flask import Flask, render_template, g
+from flask import Flask, render_template, g, abort
 import pymongo, pymongo.objectid
 
 app = Flask (__name__)
 
+config = {
+    'mongodb': {
+        'host': '10.9.8.1',
+        'port': 27017,
+        'db': 'syslog',
+        'coll': 'messages'
+    },
+}
+
 @app.before_request
 def connect_mongo ():
     try:
-        g.mongo = pymongo.Connection ("10.9.8.1", 27017)
+        g.mongo = pymongo.Connection (config['mongodb']['host'], config['mongodb']['port'])
     except pymongo.errors.ConnectionFailure, e:
-        return "Unable to connect to MongoDB instance."
+        abort (500)
+    if not g.mongo[config['mongodb']['db']][config['mongodb']['coll']]:
+        abort (500)
+    g.coll = g.mongo[config['mongodb']['db']][config['mongodb']['coll']]
 
 @app.route ("/")
 def dashboard ():
-    logs = g.mongo['syslog'].messages.find (sort = [('date', -1)], limit = 15)
+    logs = g.coll.find (sort = [('date', -1)], limit = 15)
     return render_template ("index.html", logs = logs)
 
 @app.route("/log/<logid>")
 def log (logid):
-    entry = g.mongo['syslog'].messages.find_one (pymongo.objectid.ObjectId(logid))
+    try:
+        oid = pymongo.objectid.ObjectId (logid)
+    except:
+        abort (404)
+
+    entry = g.coll.find_one (oid)
+
+    if not entry:
+        abort (404)
+
     return render_template ('log.html', log = entry)
 
 if __name__ == "__main__":
