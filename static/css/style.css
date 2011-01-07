@@ -27,6 +27,12 @@ p { margin: 0px 0px 20px 0px; line-height: 18px;}
 ul { margin: 5px 0px 15px 0px; padding: 0px;}
 li { margin-left: 20px;}
 
+hr {
+	border-top: 0px;
+	border-bottom: 1px dashed #d2d2d2;
+	margin-bottom: 20px;
+}
+
 #notice {
 	clear: both;
 	margin: 0 0 15px;
@@ -73,6 +79,10 @@ header h1 {
 	float: left;
 	font: bold 20px/21px Helvetica, Arial, sans-serif;
 	line-height: 45px;
+}
+
+#menu {
+	margin-left: 5em;
 }
 
 header h1 a {

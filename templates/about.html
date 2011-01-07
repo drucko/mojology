@@ -6,6 +6,70 @@
 <section>
   <h3>About mojology</h3>
 
-  <p>...</p>
+  <p>
+    Mojology is a simple application to browse syslog messages stored
+    in a <a href="http://www.mongodb.org/">MongoDB</a> store, as
+    logged by <a href="http://www.balabit.com/network-security/syslog-ng/opensource-logging-system">syslog-ng</a>,
+    using the <a href="http://asylum.madhouse-project.org/projects/syslog-ng/mongodb/">mongodb
+    destination driver</a>.
+  </p>
+
+  <p>
+    A little bit of extra configuration is necessary for the driver to
+    produce a document structure that is expected by mojology: dynamic
+    values need to be under the <strong>dyn</strong> key,
+    the <strong>date</strong> key must be a <em>$UNIXTIME</em> macro,
+    the <em>log level</em> and <em>facility</em> variables need to be
+    in the <strong>log.level</strong>
+    and <strong>log.facility</strong> keys, with the <em>program
+    name</em> and the <em>pid</em> similarly
+    under <strong>program.name</strong>
+    and <strong>program.pid</strong>.
+  </p>
+
+  <p>
+    The document also needs to contain a <strong>message</strong> key.
+  </p>
+
+  <p>
+    Any other key than these is ignored, unless it is
+    below <strong>dyn</strong>.
+  </p>
+
+  <p>
+    To ease configuration, the following destination block will do
+    just what mojology needs:
+  </p>
+
+  <pre>
+destination d_mongo {
+	mongodb(
+		dynamic_values("dyn")
+    		keys("date", "host", "log.facility", "log.level", "program.name", "program.pid", "message")
+		values("$UNIXTIME", "$HOST", "$FACILITY", "$LEVEL", "$PROGRAM", "$PID", "$MSGONLY")
+	);
+};
+  </pre>
+
+  <p>
+    Sprinkle the <strong>log</strong> block with some patterndb or
+    other parser magic, and you're good to go!
+  </p>
+
+  <hr>
+
+  <p>
+    mojology itself is built
+    using <a href="http://flask.pocoo.org/">Flask</a>
+    and <a href="https://github.com/mongodb/mongo-python-driver/">PyMongo</a>,
+    and is licensed under
+    the <a href="http://www.gnu.org/licenses/gpl.html">GNU GPL</a>
+    (version 3 or later).
+  </p>
+
+  <p>
+    The source code is available
+    from <a href="https://github.com/algernon/mojology">github</a>.
+  </p>
 </section>
 {% endblock %}
