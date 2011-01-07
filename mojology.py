@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 from __future__ import with_statement
 
-from flask import Flask, render_template, g, abort
+from flask import Flask, g, abort
 import pymongo, pymongo.objectid
 from mojology.utils import templated
 
