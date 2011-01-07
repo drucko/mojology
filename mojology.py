@@ -21,7 +21,6 @@ def dashboard ():
 @app.route("/log/<logid>")
 def log (logid):
     entry = g.mongo['syslog'].messages.find_one (pymongo.objectid.ObjectId(logid))
-    print entry
     return render_template ('log.html', log = entry)
 
 if __name__ == "__main__":
