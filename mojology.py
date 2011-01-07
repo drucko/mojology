@@ -16,7 +16,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask, g, abort, url_for
+from flask import Flask, g, abort, url_for, Markup
 import pymongo, pymongo.objectid
 import datetime, os
 
@@ -40,17 +40,17 @@ def mojology_page (page, hostname = None):
 
 def mojology_dump (v, in_list = False, k = None):
     if type(v) == dict:
-        r = "<table><thead><tr>"
+        r = Markup ("<table><thead><tr>")
         for key in v:
-            r += "<th>%s</th>" % key
-        r += "</tr></thead><tbody><tr>"
+            r += Markup ("<th>") + key + Markup ("</th>")
+        r += Markup ("</tr></thead><tbody><tr>")
         for key in v:
             r += mojology_dump (v[key], True, key)
-        r += "</tr></tbody></table>"
+        r += Markup ("</tr></tbody></table>")
         return r
     else:
         if in_list:
-            return "<td>%s</td>" % str (v)
+            return Markup ("<td>") + str (v) + Markup ("</td>")
         else:
             return str (v)
 
