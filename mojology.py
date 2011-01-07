@@ -44,13 +44,13 @@ def get_logs (spec, page, extra = None):
     return l
     
 @app.route ("/")
-@app.route ("/page/<int:page>")
+@app.route ("/page/<int(min=1):page>")
 @templated ()
 def dashboard (page = 1):
     return get_logs (None, page)
 
 @app.route ("/host/<hostname>")
-@app.route ("/host/<hostname>/page/<int:page>")
+@app.route ("/host/<hostname>/page/<int(min=1):page>")
 @templated ()
 def host(hostname, page = 1):
     d = get_logs ({'host': hostname}, page, { 'hostname': hostname })
