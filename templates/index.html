@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>mojology | {{ self.title () }}{% if log and log._id %} / #{{ log._id }}{% endif %}</title>
+    <title>mojology | {% block page_title %}{{ self.title () | striptags }}{% endblock %}</title>
 
     <link rel="stylesheet" href="{{ url_for("static", filename="css/black-tie/jquery-ui-1.8.custom.css")}}" type="text/css" media="screen" title="no title" charset="utf-8">
     <link rel="stylesheet" href="{{url_for("static", filename="css/mojology/jquery-ui-1.8.custom.css")}}" type="text/css" media="screen" title="no title" charset="utf-8">
