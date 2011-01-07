@@ -54,9 +54,25 @@
 	</table>
 
 	<nav>
-	  {% if hostname %}{% set endpoint = 'host' %}{% else %}{% set endpoint = 'dashboard' %}{% endif %}
-	  {% if page > 1 %}<a href="{{ url_for (endpoint, hostname = hostname, page = page - 1 ) }}">&lt;&lt;</a>{% endif %}
-	  {% if page < maxpage %}<a href="{{ url_for (endpoint, hostname = hostname, page = page + 1 ) }}">&gt;&gt;</a>{% endif %}
+	  {% if page > 1 %}
+	  <span id="prev">
+	    {% if hostname %}
+	    <a href="{{ url_for ('host', hostname = host, page = page - 1) }}">&laquo; Previous</a>
+	    {% else %}
+	    <a href="{{ url_for ('dashboard', page = page - 1) }}">&laquo; Previous</a>
+	    {% endif %}
+	  </span>
+	  {% endif %}
+
+	  {% if page < maxpage %}
+	  <span id="next">
+	    {% if hostname %}
+	    <a href="{{ url_for ('host', hostname = host, page = page + 1) }}">Next &raquo;</a>
+	    {% else %}
+	    <a href="{{ url_for ('dashboard', page = page + 1) }}">Next &raquo;</a>
+	    {% endif %}
+	  </span>
+	  {% endif %}
 	</nav>
       {% endblock %}
     </section>

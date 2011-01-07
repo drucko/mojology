@@ -117,3 +117,22 @@ section section h4 {
 	color: #222;
 	font-size: 14px;
 }
+
+/* Navigation */
+nav {
+	display: block;
+	height: 2em;
+}
+
+#prev, #next {
+	display: block;
+}
+
+#prev {
+	float: left;
+}
+
+#next {
+	float: right;
+}
+
