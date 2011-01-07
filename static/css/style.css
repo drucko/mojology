@@ -10,6 +10,10 @@ body {
 	background: #f7f7f7 url(../images/background.gif) repeat-x;
 }
 
+header, nav, section {
+	display: block;
+}
+
 /* Styles */
 
 a { color: #0088cc; text-decoration: none;}
