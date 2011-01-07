@@ -19,6 +19,8 @@ header, nav, section {
 a { color: #0088cc; text-decoration: none;}
 a:hover { text-decoration: underline;}
 a img { border: none;}
+a.hidden { color: #444; }
+a.hidden:hover { text-decoration: none; }
 
 p { margin: 0px 0px 20px 0px; line-height: 18px;}
 

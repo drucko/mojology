@@ -44,7 +44,7 @@
 	      <td><a href="{{ url_for ("log", logid = log._id) }}">+</a></td>
 	      <td>{{ log.date|datetime }}</td>
 	      <td><a href="{{ url_for ("host", hostname = log.host) }}">{{ log.host }}</a></td>
-	      <td>{{ log.message|truncate(length=100) }}</td>
+	      <td><a href="{{ url_for ("log", logid = log._id) }}" class="hidden">{{ log.message|truncate(length=100) }}</a></td>
 	    </tr>
 	    {% endfor %}
 	  </tbody>
