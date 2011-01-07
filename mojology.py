@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 from __future__ import with_statement
 
-from flask import Flask, g, abort
+from flask import Flask, g, abort, url_for
 import pymongo, pymongo.objectid
 import datetime
 
@@ -22,6 +22,12 @@ config = {
 def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
     return datetime.datetime.fromtimestamp (float (value)).strftime (format)
 
+def mojology_page (page, hostname = None):
+    if hostname:
+        return url_for ('host', hostname = hostname, page = page)
+    else:
+        return url_for ('dashboard', page = page)
+
 @app.before_request
 def connect_mongo ():
     try:
@@ -36,7 +42,8 @@ def get_logs (spec, page, extra = None):
     l = dict (logs = g.coll.find (spec = spec, sort = [('date', -1)],
                                   skip = (page - 1) * 15, limit = 15),
               maxpage = g.coll.find (spec = spec).count () / 15 + 1,
-              page = page)
+              page = page,
+              mojology_page = mojology_page)
     if page > l['maxpage']:
         abort (404)
     if extra:
