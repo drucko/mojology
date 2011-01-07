@@ -18,20 +18,15 @@
 
 from flask import Flask, g, abort, url_for
 import pymongo, pymongo.objectid
-import datetime
+import datetime, os
 
 from mojology.utils import templated
 
 app = Flask (__name__)
-
-config = {
-    'mongodb': {
-        'host': '10.9.8.1',
-        'port': 27017,
-        'db': 'syslog',
-        'coll': 'messages'
-    },
-}
+app.config.from_object ("mojology.default_config")
+app.config.from_envvar ("MOJOLOGY_SETTINGS", True)
+if os.path.exists ("local_settings.py"):
+    app.config.from_pyfile ("local_settings.py")
 
 @app.template_filter ('datetime')
 def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
@@ -62,12 +57,12 @@ def mojology_dump (v, in_list = False, k = None):
 @app.before_request
 def connect_mongo ():
     try:
-        g.mongo = pymongo.Connection (config['mongodb']['host'], config['mongodb']['port'])
+        g.mongo = pymongo.Connection (app.config['MONGO_HOST'], app.config['MONGO_PORT'])
     except pymongo.errors.ConnectionFailure, e:
         abort (500)
-    if not g.mongo[config['mongodb']['db']][config['mongodb']['coll']]:
+    g.coll = g.mongo[app.config['MONGO_DB']][app.config['MONGO_COLLECTION']]
+    if not g.coll:
         abort (500)
-    g.coll = g.mongo[config['mongodb']['db']][config['mongodb']['coll']]
 
 def get_logs (spec, page, extra = None):
     l = dict (logs = g.coll.find (spec = spec, sort = [('date', -1)],
@@ -118,5 +113,4 @@ def log (logid):
     return dict (log = entry, mojology_dump = mojology_dump)
 
 if __name__ == "__main__":
-    app.secret_key = '996ac3c8-19e2-11e0-806d-00248c0e4414'
-    app.run (debug = True)
+    app.run ()

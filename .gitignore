@@ -2,3 +2,4 @@
 *.pyo
 t/
 *~
+local_settings.py
