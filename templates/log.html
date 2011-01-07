@@ -8,19 +8,38 @@
 
   <table>
     <thead>
+      <th>Date</th>
+      <th>Host</th>
+      <th>Facility & Level</th>
+      <th>Program</th>
+      <th>Message</th>
+    </thead>
+    <tbody>
       <tr>
-	{% for f in log %}
+	<td>{{ log.date|datetime }}</td>
+	<td>{{ log.host }}</td>
+	<td>{{ log.log.facility }}.{{ log.log.level }}</td>
+	<td>{{ log.program.name }}{% if log.program.pid %}[{{ log.program.pid }}]{% endif %}</td>
+	<td>{{ log.message }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table id="dynamic_values">
+    <thead>
+      <tr>
+	{% for f in log.dyn %}
 	{% if f != "_id" %}
-	<th>{{ f|capitalize }}</th>
+	<th>{{ f }}</th>
 	{% endif %}
 	{% endfor %}
       </tr>
     </thead>
     <tbody>
       <tr>
-	{% for f in log %}
+	{% for f in log.dyn %}
 	{% if f != "_id" %}
-	<td>{{ log[f] }}</td>
+	<td>{{ mojology_dump (log.dyn[f]) | safe }}</td>
 	{% endif %}
 	{% endfor %}
       </tr>

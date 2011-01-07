@@ -28,6 +28,22 @@ def mojology_page (page, hostname = None):
     else:
         return url_for ('dashboard', page = page)
 
+def mojology_dump (v, in_list = False, k = None):
+    if type(v) == dict:
+        r = "<table><thead><tr>"
+        for key in v:
+            r += "<th>%s</th>" % key
+        r += "</tr></thead><tbody><tr>"
+        for key in v:
+            r += mojology_dump (v[key], True, key)
+        r += "</tr></tbody></table>"
+        return r
+    else:
+        if in_list:
+            return "<td>%s</td>" % str (v)
+        else:
+            return str (v)
+
 @app.before_request
 def connect_mongo ():
     try:
@@ -84,7 +100,7 @@ def log (logid):
     if not entry:
         abort (404)
 
-    return dict (log = entry)
+    return dict (log = entry, mojology_dump = mojology_dump)
 
 if __name__ == "__main__":
     app.secret_key = '996ac3c8-19e2-11e0-806d-00248c0e4414'
