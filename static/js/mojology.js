@@ -41,8 +41,8 @@ $(document).ready (function () {
 
 		       $("#slider").slider ({
 						min: 1,
-						value: $("#page_counter").html (),
-						max: $("#maxpage").html (),
+						value: parseInt ($("#page_counter").html (), 10),
+						max: parseInt ($("#maxpage").html (), 10),
 						slide: function (event, widget) {
 						    $("#page_counter").html (widget.value);
 						},
