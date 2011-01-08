@@ -54,11 +54,13 @@ def connect_mongo ():
     g.coll = g.mongo[app.config['MONGO_DB']][app.config['MONGO_COLLECTION']]
     if not g.coll:
         abort (500)
+    g.pagesize = app.config['MOJOLOGY_PAGESIZE']
 
 def get_logs (spec, page, extra = None):
     l = dict (logs = g.coll.find (spec = spec, sort = [('date', -1)],
-                                  skip = (page - 1) * 15, limit = 15),
-              maxpage = g.coll.find (spec = spec).count () / 15 + 1,
+                                  skip = (page - 1) * g.pagesize,
+                                  limit = g.pagesize),
+              maxpage = g.coll.find (spec = spec).count () / g.pagesize + 1,
               page = page,
               mojology_page = mojology_page)
     if page > l['maxpage']:
