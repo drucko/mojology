@@ -12,11 +12,11 @@
 	background: hsl(60, 100%, 80%);
 }
 
-table#message {
+#log_details table#message {
 	background: hsl(160, 100%, 95%);
 }
 
-table#message th {
+#log_details table#message th {
 	background: hsl(160, 100%, 85%);
 }
 
