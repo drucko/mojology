@@ -16,7 +16,7 @@ $(document).ready (function () {
 			       $("#log_details").fadeToggle ("fast");
 			       return;
 			   }
-			   $.get ("/log/" + obj.attr ('id') + "/dyn",
+			   $.get ("/log/" + obj.attr ('data-id') + "/dyn",
 				  function (data) {
 				      log_details_change (obj, data);
 				  });
