@@ -1,0 +1,16 @@
+<table>
+  <thead>
+    <tr>
+      {% for k in vars %}
+      <th>{{ k }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% for k in vars %}
+      <td>{{ mojology_dump (vars[k]) }}</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
