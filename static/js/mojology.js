@@ -47,10 +47,20 @@ $(document).ready (function () {
 						    $("#page_counter").html (widget.value);
 						},
 						change: function (event, widget) {
+						    $("body").addClass ("busy");
 						    window.history.replaceState ({
 										     page: widget.value,
 										 }, "", $BASE_URL + "page/" + widget.value);
-						    $("#main_table").load ($BASE_URL + "page/" + widget.value +" #main_table");
+						    $("nav").fadeOut (500);
+						    $("#main_table").fadeOut (500, function () {
+										  $(this).load ($BASE_URL + "page/" + widget.value +" #main_table", null,
+												function (r, t, x) {
+												    $("nav").fadeIn (500);
+												    $(this).fadeIn (500, function () {
+															$("body").removeClass ("busy");
+														    });
+												});
+									      });
 						}
 					    });
 });
