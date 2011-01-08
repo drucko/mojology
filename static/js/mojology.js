@@ -31,4 +31,8 @@ $(document).ready (function () {
 						event.stopPropagation ();
 						log_details_fiddle ($(this).closest ("tr"));
 					    });
+
+		       $.each ($("#main_table > thead tr").children (), function (k ,v) {
+				   $(v).css ({ width: $(v).width () });
+		       });
 });
