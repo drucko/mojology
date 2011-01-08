@@ -1,7 +1,11 @@
 /* Table Style */
 
-#main_table > tbody tr:hover td {
+#main_table > tbody tr:hover {
 	cursor: pointer;
+}
+
+#log_details tr:hover, #log_details:hover {
+	cursor: default !important;
 }
 
 #log_details table {
