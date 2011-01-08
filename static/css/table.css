@@ -1,6 +1,6 @@
 /* Table Style */
 
-#main_table > tr:hover {
+tr:hover {
 	cursor: pointer;
 }
 
