@@ -43,6 +43,10 @@
       {% endblock %}
     </section>
 
+    <script type=text/javascript>
+      $BASE_URL = {{ request.base_url|tojson|safe }};
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+    </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="{{ url_for ("static", filename = "js/mojology.js") }}" type="text/javascript"></script>
   </body>

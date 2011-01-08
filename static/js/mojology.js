@@ -19,7 +19,7 @@ $(document).ready (function () {
 			       $(".log_details").fadeToggle ("fast", function () { $("body").removeClass ('busy'); });
 			       return;
 			   }
-			   $.get ("/log/" + obj.attr ('data-id') + "/dyn",
+			   $.get ($SCRIPT_ROOT + "/log/" + obj.attr ('data-id') + "/dyn",
 				  function (data) {
 				      log_details_change (obj, data);
 				  });
