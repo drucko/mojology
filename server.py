@@ -81,7 +81,7 @@ def dashboard (page = 1):
 def about ():
     return None
 
-@app.route ("/host/<hostname>")
+@app.route ("/host/<hostname>/")
 @app.route ("/host/<hostname>/page/<int(min=1):page>")
 @templated ()
 def host(hostname, page = 1):
