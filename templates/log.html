@@ -9,6 +9,7 @@
   {% import "log_main.html" as lm %}
   {{ lm.log_table ([log]) }}
 
-  {% include "log_dyn.html" %}
+  {% import "log_details.html" as dyn %}
+  {{ dyn.log_details (log, dyn_vars, mojology_dump, False) }} 
 </section>
 {% endblock %}

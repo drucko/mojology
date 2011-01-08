@@ -1,0 +1,49 @@
+{% macro log_details(log, dyn_vars, mojology_dump, need_table = True) -%}
+{% if log.message|length > 72 %}
+{% if need_table %}
+<tr class="log_details">
+  <td colspan="5">
+{% endif %}
+    <table id="message">
+      <thead>
+	<tr>
+	  <th>Message</th>
+	</tr>
+      </thead>
+      <tbody>
+	<tr>
+	  <td>{{ log.message }}</td>
+	</tr>
+      </tbody>
+    </table>
+{% if need_table %}
+  </td>
+</tr>
+{% endif %}
+{% endif %}
+
+{% if need_table %}
+<tr class="log_details">
+  <td colspan="5">
+{% endif %}
+    <table id="dynamic_values">
+      <thead>
+	<tr>
+	  {% for f in dyn_vars %}
+	  <th>{{ f }}</th>
+	  {% endfor %}
+	</tr>
+      </thead>
+      <tbody>
+	<tr>
+	  {% for f in dyn_vars %}
+	  <td>{{ mojology_dump (dyn_vars[f]) }}</td>
+	  {% endfor %}
+	</tr>
+      </tbody>
+    </table>
+{% if need_table %}
+  </td>
+</tr>
+{% endif %}
+{%- endmacro %}
