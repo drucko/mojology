@@ -1,3 +1,18 @@
+{% if log.message|length > 72 %}
+<table id="message">
+  <thead>
+    <tr>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ log.message }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endif %}
+
 <table id="dynamic_values">
   <thead>
     <tr>
