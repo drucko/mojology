@@ -1,5 +1,17 @@
 /* Table Style */
 
+#main_table > tbody tr:hover td {
+	cursor: pointer;
+}
+
+#log_details table {
+	background: hsl(60, 100%, 90%);
+}
+
+#log_details table th {
+	background: hsl(60, 100%, 80%);
+}
+
 table {
 	width: 99%;
 	height: 100%;

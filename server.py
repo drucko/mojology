@@ -106,5 +106,9 @@ def log (logid):
     return dict (log = entry, mojology_dump = mojology_dump,
                  dyn_vars = entry[app.config['MONGO_DYNVARS']])
 
+@app.route ("/log/<logid>/dyn")
+def log_dyn (logid):
+    return log (logid)
+
 if __name__ == "__main__":
     app.run ()

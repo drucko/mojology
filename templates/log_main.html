@@ -1,5 +1,5 @@
 {% macro log_table(logs, is_main = False) -%}
-<table>
+<table id="main_table">
   <thead>
     <tr>
       <th>Date</th>
@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     {% for log in logs %}
-    <tr class="{{ loop.cycle ('odd', 'even') }}">
+    <tr class="{{ loop.cycle ('odd', 'even') }} clickable" id="{{ log._id }}">
       <td class="nowrap">{{ log.date|datetime }}</td>
       <td class="nowrap">
 	{% if is_main %}

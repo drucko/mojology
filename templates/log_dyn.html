@@ -1,0 +1,16 @@
+<table id="dynamic_values">
+  <thead>
+    <tr>
+      {% for f in dyn_vars %}
+      <th>{{ f }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      {% for f in dyn_vars %}
+      <td>{{ mojology_dump (dyn_vars[f]) }}</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
