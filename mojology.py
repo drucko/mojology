@@ -101,7 +101,7 @@ def log (logid):
     if not entry:
         abort (404)
 
-    return dict (log = entry, mojology_dump = mojology_dump,
+    return dict (logs = [ entry ], mojology_dump = mojology_dump,
                  dyn_vars = entry[app.config['MONGO_DYNVARS']])
 
 if __name__ == "__main__":

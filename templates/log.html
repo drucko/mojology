@@ -4,28 +4,9 @@
 
 {% block content %}
 <section>
-  <h3>Log message #{{ log._id }}</h3>
+  <h3>Log message #{{ logs[0]._id }}</h3>
 
-  <table>
-    <thead>
-      <tr>
-	<th>Date</th>
-	<th>Host</th>
-	<th>Facility & Level</th>
-	<th>Program</th>
-	<th>Message</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-	<td class="nowrap">{{ log.date|datetime }}</td>
-	<td class="nowrap">{{ log.host }}</td>
-	<td class="nowrap">{{ log.log.facility }}.{{ log.log.level }}</td>
-	<td class="nowrap">{{ log.program.name }}{% if log.program.pid %}[{{ log.program.pid }}]{% endif %}</td>
-	<td>{{ log.message }}</td>
-      </tr>
-    </tbody>
-  </table>
+  {% include "log_main.html" %}
 
   <table id="dynamic_values">
     <thead>

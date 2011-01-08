@@ -29,26 +29,8 @@
       <section>
 	<h3>Latest log messages {% block content_header %}{% endblock %}, page #{{ page }} of {{ maxpage }}</h3>
 
-	<table>
-	  <thead>
-	    <tr>
-	      <th>&darr;</th>
-	      <th>Date</th>
-	      <th>Host</th>
-	      <th>Message</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    {% for log in logs %}
-	    <tr class="{{ loop.cycle ('odd', 'even') }}">
-	      <td><a href="{{ url_for ("log", logid = log._id) }}">+</a></td>
-	      <td>{{ log.date|datetime }}</td>
-	      <td><a href="{{ url_for ("host", hostname = log.host) }}">{{ log.host }}</a></td>
-	      <td><a href="{{ url_for ("log", logid = log._id) }}" class="hidden">{{ log.message|truncate(length=100) }}</a></td>
-	    </tr>
-	    {% endfor %}
-	  </tbody>
-	</table>
+	{% set main = True %}
+	{% include "log_main.html" %}
 
 	<nav>
 	  {% if page > 1 %}
