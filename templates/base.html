@@ -21,7 +21,7 @@
 
       {% block content %}
       <section>
-	<h3>Latest log messages {% block content_header %}{% endblock %}, page #{{ page }} of {{ maxpage }}</h3>
+	<h3>Latest log messages {%- block content_header -%}{%- endblock -%}, page #{{ page }} of {{ maxpage }}</h3>
 
 	{% import "log_main.html" as lm %}
 	{{ lm.log_table (logs, True) }}
