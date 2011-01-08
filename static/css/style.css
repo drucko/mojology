@@ -33,6 +33,11 @@ hr {
 	margin-bottom: 20px;
 }
 
+body.busy * {
+	//background: red;
+	cursor: wait !important;
+}
+
 #notice {
 	clear: both;
 	margin: 0 0 15px;

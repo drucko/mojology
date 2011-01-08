@@ -3,6 +3,7 @@ $(document).ready (function () {
 			   $(".log_details").remove ();
 			   $(self).after (data);
 			   $(".log_details").css ({display: "none"}).fadeIn (500);
+			   $("body").removeClass ('busy');
 		       }
 		       function log_details_change (self, data) {
 			   if ($(".log_details").attr ('class')) {
@@ -12,8 +13,9 @@ $(document).ready (function () {
 			   }
 		       }
 		       function log_details_fiddle (obj) {
+			   $("body").addClass ('busy');
 			   if (obj.next ().attr ('class') == "log_details") {
-			       $(".log_details").fadeToggle ("fast");
+			       $(".log_details").fadeToggle ("fast", function () { $("body").removeClass ('busy'); });
 			       return;
 			   }
 			   $.get ("/log/" + obj.attr ('data-id') + "/dyn",
