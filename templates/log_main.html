@@ -26,7 +26,7 @@
 	{% if is_main %}
 	<a href="{{ url_for ("log", logid = log._id) }}" class="hidden">{{ log.message|truncate(length=80) }}</a>
 	{% else %}
-	{{ log.message }}
+	{{ log.message|truncate(length=80) }}
 	{% endif %}
       </td>
     </tr>
