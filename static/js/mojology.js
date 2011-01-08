@@ -38,4 +38,19 @@ $(document).ready (function () {
 		       $.each ($("#main_table > thead tr").children (), function (k ,v) {
 				   $(v).css ({ width: $(v).width () });
 		       });
+
+		       $("#slider").slider ({
+						min: 1,
+						value: $("#page_counter").html (),
+						max: $("#maxpage").html (),
+						slide: function (event, widget) {
+						    $("#page_counter").html (widget.value);
+						},
+						change: function (event, widget) {
+						    window.history.replaceState ({
+										     page: widget.value,
+										 }, "", $BASE_URL + "page/" + widget.value);
+						    $("#main_table").load ($BASE_URL + "page/" + widget.value +" #main_table");
+						}
+					    });
 });

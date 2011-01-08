@@ -158,3 +158,14 @@ nav {
 	float: right;
 }
 
+/* Slider */
+#slider {
+	width: 50%;
+	float: right;
+}
+
+#page_counter, #maxpage {
+	border: 0px;
+	display: inline;
+	width: auto;
+}
