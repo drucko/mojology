@@ -25,15 +25,15 @@ $(document).ready (function () {
 				  });
 		       };
 
-		       $("tr.clickable").click (function (event) {
-						    event.stopPropagation ();
-						    log_details_fiddle ($(this));
-						});
-		       $("a.hidden").click (function (event) {
-						event.preventDefault ();
-						event.stopPropagation ();
-						log_details_fiddle ($(this).closest ("tr"));
-					    });
+		       $("tr.clickable").live ("click", function (event) {
+						   event.stopPropagation ();
+						   log_details_fiddle ($(this));
+					       });
+		       $("a.hidden").live ("click", function (event) {
+					       event.preventDefault ();
+					       event.stopPropagation ();
+					       log_details_fiddle ($(this).closest ("tr"));
+					   });
 
 		       $.each ($("#main_table > thead tr").children (), function (k ,v) {
 				   $(v).css ({ width: $(v).width () });
