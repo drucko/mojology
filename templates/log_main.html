@@ -1,3 +1,4 @@
+{% macro log_table(logs, is_main = False) -%}
 <table>
   <thead>
     <tr>
@@ -13,7 +14,7 @@
     <tr class="{{ loop.cycle ('odd', 'even') }}">
       <td class="nowrap">{{ log.date|datetime }}</td>
       <td class="nowrap">
-	{% if main %}
+	{% if is_main %}
 	<a href="{{ url_for ("host", hostname = log.host) }}">{{ log.host }}</a>
 	{% else %}
 	{{ log.host }}
@@ -22,7 +23,7 @@
       <td class="nowrap">{{ log.log.facility }}.{{ log.log.level }}</td>
       <td class="nowrap">{{ log.program.name }}{% if log.program.pid %}[{{ log.program.pid }}]{% endif %}</td>
       <td>
-	{% if main %}
+	{% if is_main %}
 	<a href="{{ url_for ("log", logid = log._id) }}" class="hidden">{{ log.message|truncate(length=80) }}</a>
 	{% else %}
 	{{ log.message }}
@@ -32,3 +33,4 @@
     {% endfor %}
   </tbody>
 </table>
+{%- endmacro %}

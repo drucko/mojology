@@ -4,9 +4,10 @@
 
 {% block content %}
 <section>
-  <h3>Log message #{{ logs[0]._id }}</h3>
+  <h3>Log message #{{ log._id }}</h3>
 
-  {% include "log_main.html" %}
+  {% import "log_main.html" as lm %}
+  {{ lm.log_table ([log]) }}
 
   <table id="dynamic_values">
     <thead>

@@ -29,8 +29,8 @@
       <section>
 	<h3>Latest log messages {% block content_header %}{% endblock %}, page #{{ page }} of {{ maxpage }}</h3>
 
-	{% set main = True %}
-	{% include "log_main.html" %}
+	{% import "log_main.html" as lm %}
+	{{ lm.log_table (logs, True) }}
 
 	<nav>
 	  {% if page > 1 %}
