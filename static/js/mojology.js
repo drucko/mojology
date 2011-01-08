@@ -48,9 +48,10 @@ $(document).ready (function () {
 						},
 						change: function (event, widget) {
 						    $("body").addClass ("busy");
-						    window.history.replaceState ({
-										     page: widget.value,
-										 }, "", $BASE_URL + "page/" + widget.value);
+						    if (window.history.replaceState)
+							window.history.replaceState ({
+											 page: widget.value,
+										     }, "", $BASE_URL + "page/" + widget.value);
 						    $("nav").fadeOut (500);
 						    $("#main_table").fadeOut (500, function () {
 										  $(this).load ($BASE_URL + "page/" + widget.value +" #main_table", null,
