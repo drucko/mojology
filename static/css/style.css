@@ -34,7 +34,6 @@ hr {
 }
 
 body.busy * {
-	//background: red;
 	cursor: wait !important;
 }
 
