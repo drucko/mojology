@@ -4,7 +4,7 @@ tr:hover {
 	cursor: pointer;
 }
 
-.log_details tr:hover, .log_details:hover {
+.log_details tr:hover, .log_details:hover, thead tr:hover {
 	cursor: default !important;
 }
 
