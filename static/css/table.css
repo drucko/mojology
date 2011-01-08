@@ -1,6 +1,6 @@
 /* Table Style */
 
-tr:hover {
+tr.clickable:hover {
 	cursor: pointer;
 }
 

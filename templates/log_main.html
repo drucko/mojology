@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     {% for log in logs %}
-    <tr class="{{ loop.cycle ('odd', 'even') }} clickable" data-id="{{ log._id }}">
+    <tr class="{{ loop.cycle ('odd', 'even') }}{% if is_main %} clickable{% endif %}" data-id="{{ log._id }}">
       <td class="nowrap">{{ log.date|datetime }}</td>
       <td class="nowrap">
 	{% if is_main %}
