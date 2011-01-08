@@ -52,15 +52,16 @@ $(document).ready (function () {
 							window.history.replaceState ({
 											 page: widget.value,
 										     }, "", $BASE_URL + "page/" + widget.value);
-						    $("nav").fadeOut (500);
+						    $("nav").fadeOut (250);
 						    $("#main_table").fadeOut (500, function () {
-										  $(this).load ($BASE_URL + "page/" + widget.value +" #main_table", null,
-												function (r, t, x) {
-												    $("nav").fadeIn (500);
-												    $(this).fadeIn (500, function () {
-															$("body").removeClass ("busy");
-														    });
-												});
+										  $.get ($BASE_URL + "page/" + widget.value,
+											 function (r) {
+											     $("nav").html ($(r).find ("nav").html ()).fadeIn (500);
+											     $("#main_table").html ($(r).find ("#main_table").html ()).
+												 fadeIn (500, function () {
+													     $("body").removeClass ("busy");
+													 });
+											 });
 									      });
 						}
 					    });
