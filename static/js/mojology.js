@@ -2,8 +2,9 @@ $(document).ready (function () {
 		       function log_details_set (self, data) {
 			   $(".log_details").remove ();
 			   $(self).after (data);
-			   $(".log_details").css ({display: "none"}).fadeIn (500);
-			   $("body").removeClass ('busy');
+			   $(".log_details").css ({display: "none"}).fadeIn (500, function () {
+										 $("body").removeClass ('busy');
+									     });
 		       }
 		       function log_details_change (self, data) {
 			   if ($(".log_details").attr ('class')) {
