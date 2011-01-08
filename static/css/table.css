@@ -1,33 +1,36 @@
 /* Table Style */
 
-#main_table > tbody tr:hover {
+#main_table > tr:hover {
 	cursor: pointer;
 }
 
-#log_details tr:hover, #log_details:hover {
+.log_details tr:hover, .log_details:hover {
 	cursor: default !important;
 }
 
-#log_details table {
+.log_details table {
 	background: hsl(60, 100%, 90%);
 }
 
-#log_details table th {
+.log_details table th {
 	background: hsl(60, 100%, 80%);
 }
 
-#log_details table#message {
+.log_details table#message {
 	background: hsl(160, 100%, 95%);
 }
 
-#log_details table#message th {
+.log_details table#message th {
 	background: hsl(160, 100%, 85%);
+}
+
+.log_details td {
+	border-bottom: 0px;
 }
 
 table {
 	width: 99%;
 	height: 100%;
-	margin: 0 0 15px;
 	text-align: left;
 	border-collapse: collapse;
 }
