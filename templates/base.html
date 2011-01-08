@@ -48,7 +48,7 @@
     </section>
 
     <script type=text/javascript>
-      $BASE_URL = {{ request.base_url|tojson|safe }};
+      {% if hostname %}$BASE_URL = "{{ url_for ("host", hostname = hostname) }}";{% else %}$BASE_URL = "{{ url_for ("dashboard") }}";{% endif %}
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>
