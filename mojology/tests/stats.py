@@ -15,12 +15,15 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import unittest
 import mojology.tests
 
-from mojology.tests.about import AboutTest
-from mojology.tests.browser import BrowserTest
-from mojology.tests.stats import StatsTest
+class StatsTest (mojology.tests.TestCase):
+    def test_basic (self):
+        """Basic stats page test"""
+        self.populate ()
 
-if __name__ == "__main__":
-    unittest.main ()
+        rv = self.app.get ("/stats/")
+
+        assert "<title>mojology | Statistics</title>" in rv.data
+        assert "table.css" not in rv.data
+        assert 'host_stats = [{"count": 7.0, "host": "luthien"}, {"count": 32.0, "host": "localhost"}];' in rv.data
