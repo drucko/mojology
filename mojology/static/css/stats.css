@@ -13,3 +13,18 @@ section section h3 {
 	margin-left: 5em;
 	margin-right: 5em;
 }
+
+.double {
+	width: 500px;
+	height: 700px;
+}
+
+#stats_menu {
+	float: right;
+	margin: 0;
+	height: auto;
+}
+
+.jqplot-table-legend {
+	white-space: nowrap;
+}

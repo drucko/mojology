@@ -1,0 +1,13 @@
+{% extends "stats/stats_base.html" %}
+
+{% block title %}Statistics | Programs{% endblock %}
+
+{% block stats %}
+<h4>Program statistics</h4>
+
+<div id="prog_stats_pie" class="plotted double"></div>
+
+<script type="text/javascript">
+  prog_stats = {{ prog_stats }};
+</script>
+{% endblock %}

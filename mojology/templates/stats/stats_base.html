@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics{% endblock %}
+
+{% block content %}
+<section>
+  <h3>
+    Dashboard
+
+    <nav id="stats_menu">
+      <a href="{{ url_for("stats.dashboard") }}">Hosts</a> |
+      <a href="{{ url_for("stats.programs") }}">Programs</a> | Time
+    </nav>
+  </h3>
+
+  {% block stats %}{% include "stats/dashboard.html" %}{% endblock %}
+</section>
+{% endblock %}
+
+{% block extra_head %}
+<!--[if IE]><script language="javascript" type="text/javascript"
+    src="{{ url_for (".static", filename = "stats/js/excanvas.min.js") }}"></script><![endif]-->
+
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for (".static", filename = "stats/css/jquery.jqplot.min.css") }}">
+<link rel="stylesheet" type="text/css"
+      href="{{ url_for (".static", filename = "css/stats.css") }}">
+{% endblock %}
+
+{% block extra_js %}
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/jquery.jqplot.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.pieRenderer.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.barRenderer.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.categoryAxisRenderer.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/stats.js") }}"></script>
+{% endblock %}

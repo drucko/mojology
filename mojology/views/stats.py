@@ -30,3 +30,11 @@ statsm = Module (__name__)
 def dashboard ():
     host_stats = g.coll.group (["host"], {}, {"count": 0 }, "function (obj, prev) { prev.count++; }");
     return dict (host_stats = Markup (json.dumps (host_stats, default = pymongo.json_util.default)))
+
+@statsm.route ("/programs")
+@statsm.route ("/programs/")
+@templated ()
+def programs ():
+    prog_stats = g.coll.group (["program.name"], {}, {"count": 0},
+                               "function (obj, prev) { prev.count++; }");
+    return dict (prog_stats = Markup (json.dumps (prog_stats, default = pymongo.json_util.default)))
