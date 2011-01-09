@@ -37,3 +37,13 @@ class StatsTest (mojology.tests.TestCase):
         assert 'prog_stats = [{"count": 9.0, "program.name": "syslog-ng"}, {"count": 15.0, "program.name": "sshguard"}, {"count": 1.0, "program.name": "."}, {"count": 10.0, "program.name": "sshd"}, {"count": 1.0, "program.name": "hooman"}, {"count": 2.0, "program.name": "kernel"}, {"count": 1.0, "program.name": "hi"}];' in rv.data
         assert 'table.css' not in rv.data
         assert "<title>mojology | Statistics | Programs</title>" in rv.data
+
+    def test_time (self):
+        """Test the time-based stats"""
+        self.populate ()
+
+        rv = self.app.get ("/stats/time/")
+
+        assert 'table.css' not in rv.data
+        assert "<title>mojology | Statistics | Time</title>" in rv.data
+        assert 'time_stats = [{"date": 1294516800.0, "count": 39.0}];' in rv.data
