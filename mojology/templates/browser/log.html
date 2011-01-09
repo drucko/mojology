@@ -6,10 +6,10 @@
 <section>
   <h3>Log message #{{ log._id }}</h3>
 
-  {% import "log_main.html" as lm %}
+  {% import "browser/log_main.html" as lm %}
   {{ lm.log_table ([log]) }}
 
-  {% import "log_details.html" as dyn %}
+  {% import "browser/log_details.html" as dyn %}
   {{ dyn.log_details (log, dyn_vars, mojology_dump, False) }} 
 </section>
 {% endblock %}
