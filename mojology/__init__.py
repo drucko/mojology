@@ -20,6 +20,7 @@ import datetime
 
 from mojology.utils import templated
 from mojology.views.browser import browser
+from mojology.views.stats import statsm
 
 def Mojology (config_file = None, config_object = None):
     app = Flask (__name__)
@@ -32,6 +33,7 @@ def Mojology (config_file = None, config_object = None):
         app.config.from_object (config_object)
 
     app.register_module (browser)
+    app.register_module (statsm, url_prefix = "/stats")
 
     @app.template_filter ('datetime')
     def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
