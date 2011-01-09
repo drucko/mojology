@@ -26,7 +26,7 @@ class TestConfig (object):
     TESTING = True
     MONGO_HOST = "127.0.0.1"
     MONGO_PORT = 27017
-    MONGO_DB = "demo"
+    MONGO_DB = "mojology_test"
     MONGO_COLLECTION = "messages"
     MONGO_DYNVARS = "dyn"
 
