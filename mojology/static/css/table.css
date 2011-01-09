@@ -24,6 +24,10 @@ tr.clickable:hover {
 	background: hsl(160, 100%, 85%);
 }
 
+.selected {
+	background: hsl(125, 100%, 90%) !important;
+}
+
 .log_details td {
 	border-bottom: 0px;
 }
