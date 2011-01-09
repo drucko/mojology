@@ -16,8 +16,9 @@
   <body>
     <header>
       <h1>
-	<a href="{{ url_for("browser.dashboard") }}">mojology</a> |
+	<a href="{{ url_for(".dashboard") }}">mojology</a> |
 	<span id="menu">
+	  <a href="{{ url_for ("browser.dashboard") }}">logs</a> |
 	  <a href="{{ url_for ("stats.dashboard") }}">stats</a> |
 	  <a href="{{ url_for (".about") }}">about</a>
 	</span>

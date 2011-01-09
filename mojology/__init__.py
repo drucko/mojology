@@ -14,7 +14,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask, g, current_app
+from flask import Flask, g, current_app, redirect
 import pymongo
 import datetime
 
@@ -56,5 +56,9 @@ def Mojology (config_file = None, config_object = None):
     @templated ()
     def about ():
         return None
+
+    @app.route ("/")
+    def dashboard ():
+        redirect (url_for ("browser.dashboard"))
 
     return app
