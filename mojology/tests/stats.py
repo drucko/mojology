@@ -27,3 +27,13 @@ class StatsTest (mojology.tests.TestCase):
         assert "<title>mojology | Statistics</title>" in rv.data
         assert "table.css" not in rv.data
         assert 'host_stats = [{"count": 7.0, "host": "luthien"}, {"count": 32.0, "host": "localhost"}];' in rv.data
+
+    def test_programs (self):
+        """Test the program statistics"""
+        self.populate ()
+
+        rv = self.app.get ("/stats/programs/")
+
+        assert 'prog_stats = [{"count": 9.0, "program.name": "syslog-ng"}, {"count": 15.0, "program.name": "sshguard"}, {"count": 1.0, "program.name": "."}, {"count": 10.0, "program.name": "sshd"}, {"count": 1.0, "program.name": "hooman"}, {"count": 2.0, "program.name": "kernel"}, {"count": 1.0, "program.name": "hi"}];' in rv.data
+        assert 'table.css' not in rv.data
+        assert "<title>mojology | Statistics | Programs</title>" in rv.data
