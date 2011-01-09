@@ -1,0 +1,13 @@
+{% extends "stats/stats_base.html" %}
+
+{% block title %}Statistics | Time{% endblock %}
+
+{% block stats %}
+<h4>Time-based statistics</h4>
+
+<div id="time_plot" class="plotted wide"></div>
+
+<script type="text/javascript">
+  time_stats = {{ time_stats }};
+</script>
+{% endblock %}

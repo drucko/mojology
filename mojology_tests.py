@@ -20,6 +20,7 @@ import mojology.tests
 
 from mojology.tests.about import AboutTest
 from mojology.tests.browser import BrowserTest
+from mojology.tests.stats import StatsTest
 
 if __name__ == "__main__":
     unittest.main ()

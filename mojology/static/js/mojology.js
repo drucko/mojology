@@ -65,4 +65,7 @@ $(document).ready (function () {
 									      });
 						}
 					    });
+		       if ($.jqplot) {
+			   $.jqplot.config.enablePlugins = true;
+		       }
 });
