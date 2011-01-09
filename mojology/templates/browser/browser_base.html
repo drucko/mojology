@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{url_for(".static", filename="css/table.css")}}" type="text/css" media="screen">
+{% endblock %}
+
+{% block content %}
+<section>
+  <h3>
+    Latest log messages {%- block content_header -%}{%- endblock -%}, page #<span id="page_counter">{{ page }}</span> of <span id="maxpage">{{ maxpage }}</span>
+    <span id="slider"></span>
+  </h3>
+
+  {% import "browser/log_main.html" as lm %}
+  {{ lm.log_table (logs, True) }}
+
+  <nav>
+    {% if page > 1 %}
+    <span id="prev">
+      <a href="{{ mojology_page (page - 1, hostname) }}">&laquo; Previous</a>
+    </span>
+    {% endif %}
+
+    {% if page < maxpage %}
+    <span id="next">
+      <a href="{{ mojology_page (page + 1, hostname) }}">Next &raquo;</a>
+    </span>
+    {% endif %}
+  </nav>
+</section>
+{% endblock %}
