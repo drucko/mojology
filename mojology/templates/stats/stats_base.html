@@ -9,7 +9,8 @@
 
     <nav id="stats_menu">
       <a href="{{ url_for("stats.dashboard") }}">Hosts</a> |
-      <a href="{{ url_for("stats.programs") }}">Programs</a> | Time
+      <a href="{{ url_for("stats.programs") }}">Programs</a> |
+      <a href="{{ url_for("stats.time") }}">Time</a>
     </nav>
   </h3>
 
@@ -36,6 +37,16 @@
 	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.barRenderer.min.js") }}"></script>
 <script type="text/javascript"
 	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.categoryAxisRenderer.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.canvasTextRenderer.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.canvasAxisLabelRenderer.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.canvasAxisTickRenderer.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.cursor.min.js") }}"></script>
+<script type="text/javascript"
+	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.dateAxisRenderer.min.js") }}"></script>
 <script type="text/javascript"
 	src="{{ url_for (".static", filename = "stats/js/stats.js") }}"></script>
 {% endblock %}

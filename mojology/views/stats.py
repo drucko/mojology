@@ -22,6 +22,7 @@ from mojology.utils import templated
 from flask import Module, g, Markup
 import pymongo.objectid, pymongo.json_util
 import json
+from pymongo.code import Code
 
 statsm = Module (__name__)
 
@@ -38,3 +39,11 @@ def programs ():
     prog_stats = g.coll.group (["program.name"], {}, {"count": 0},
                                "function (obj, prev) { prev.count++; }");
     return dict (prog_stats = Markup (json.dumps (prog_stats, default = pymongo.json_util.default)))
+
+@statsm.route ("/time")
+@statsm.route ("/time/")
+@templated ()
+def time ():
+    time_stats = g.coll.group (Code ("function (doc) { d = new Date (doc.date * 1000); d.setMinutes(0); d.setSeconds(0); return { 'date': d.valueOf()/1000 } }"), {}, {"count": 0},
+                               "function (obj, prev) { prev.count++; }");
+    return dict (time_stats = Markup (json.dumps (time_stats, default = pymongo.json_util.default)))

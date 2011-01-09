@@ -19,6 +19,10 @@ section section h3 {
 	height: 700px;
 }
 
+.wide {
+	width: 80%;
+}
+
 #stats_menu {
 	float: right;
 	margin: 0;
