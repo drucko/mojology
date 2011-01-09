@@ -15,5 +15,11 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from mojology import app
-app.run()
+from mojology import Mojology
+import os
+
+cfg_file = os.path.realpath (os.path.join (os.path.dirname (__file__), "local_settings.py"))
+if not os.path.exists (cfg_file):
+    cfg_file = None
+
+Mojology (config_file = cfg_file).run ()

@@ -15,7 +15,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import mojology
+from mojology import Mojology
 import unittest
 import pymongo, pymongo.json_util
 import json
@@ -34,8 +34,8 @@ class TestConfig (object):
 
 class TestCase (unittest.TestCase):
     def setUp (self):
-        mojology.app.config.from_object ("mojology.tests.TestConfig")
-        self.app = mojology.app.test_client ()
+        self.mojology = Mojology (config_object = "mojology.tests.TestConfig")
+        self.app = self.mojology.test_client ()
 
         self.db = pymongo.Connection (TestConfig.MONGO_HOST, TestConfig.MONGO_PORT)
         self.coll = self.db[TestConfig.MONGO_DB][TestConfig.MONGO_COLLECTION]

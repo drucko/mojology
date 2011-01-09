@@ -14,39 +14,45 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask, g
-import pymongo, pymongo.objectid
-import datetime, os
+from flask import Flask, g, current_app
+import pymongo
+import datetime
 
 from mojology.utils import templated
 from mojology.views.browser import browser
 
-app = Flask (__name__)
-app.config.from_object ("mojology.default_config")
-app.config.from_envvar ("MOJOLOGY_SETTINGS", True)
-if os.path.exists (os.path.join (os.path.dirname (__file__), "local_settings.py")):
-    app.config.from_pyfile ("local_settings.py")
+def Mojology (config_file = None, config_object = None):
+    app = Flask (__name__)
+    app.config.from_object ("mojology.default_config")
+    app.config.from_envvar ("MOJOLOGY_SETTINGS", True)
 
-app.register_module (browser)
+    if config_file:
+        app.config.from_pyfile (config_file)
+    if config_object:
+        app.config.from_object (config_object)
 
-@app.template_filter ('datetime')
-def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
-    return datetime.datetime.fromtimestamp (float (value)).strftime (format)
+    app.register_module (browser)
 
-@app.before_request
-def connect_mongo ():
-    try:
-        g.mongo = pymongo.Connection (app.config['MONGO_HOST'], app.config['MONGO_PORT'])
-    except pymongo.errors.ConnectionFailure, e:
-        abort (500)
-    g.coll = g.mongo[app.config['MONGO_DB']][app.config['MONGO_COLLECTION']]
-    if not g.coll:
-        abort (500)
-    g.pagesize = app.config['MOJOLOGY_PAGESIZE']
-    g.dyn_vars = app.config['MONGO_DYNVARS']
+    @app.template_filter ('datetime')
+    def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
+        return datetime.datetime.fromtimestamp (float (value)).strftime (format)
 
-@app.route ("/about")
-@app.route ("/about/")
-@templated ()
-def about ():
-    return None
+    @app.before_request
+    def connect_mongo ():
+        try:
+            g.mongo = pymongo.Connection (current_app.config['MONGO_HOST'], current_app.config['MONGO_PORT'])
+        except pymongo.errors.ConnectionFailure, e:
+            abort (500)
+        g.coll = g.mongo[current_app.config['MONGO_DB']][current_app.config['MONGO_COLLECTION']]
+        if not g.coll:
+            abort (500)
+        g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
+        g.dyn_vars = current_app.config['MONGO_DYNVARS']
+
+    @app.route ("/about")
+    @app.route ("/about/")
+    @templated ()
+    def about ():
+        return None
+
+    return app
