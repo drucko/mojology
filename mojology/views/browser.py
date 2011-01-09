@@ -20,7 +20,7 @@
 from mojology.utils import templated
 
 from flask import Module, g, url_for, render_template, Markup, abort
-import pymongo
+import pymongo.objectid
 
 browser = Module (__name__)
 
