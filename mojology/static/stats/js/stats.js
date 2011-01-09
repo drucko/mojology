@@ -110,6 +110,8 @@ function time_plot (src) {
 
 $(document).ready (
     function () {
+	$.jqplot.config.enablePlugins = true;
+
 	if (typeof host_stats !== 'undefined') {
 	    r = stats_setup (host_stats, "host");
 

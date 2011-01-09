@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block extra_head %}
-<link rel="stylesheet" href="{{url_for(".static", filename="css/table.css")}}" type="text/css" media="screen">
+<link rel="stylesheet" href="{{url_for(".static", filename="browser/css/browser.css")}}" type="text/css" media="screen">
 {% endblock %}
 
 {% block content %}
@@ -28,4 +28,8 @@
     {% endif %}
   </nav>
 </section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for (".static", filename = "browser/js/browser.js") }}" type="text/javascript"></script>
 {% endblock %}
