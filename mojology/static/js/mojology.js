@@ -16,9 +16,12 @@ $(document).ready (function () {
 		       function log_details_fiddle (obj) {
 			   $("body").addClass ('busy');
 			   if (obj.next ().attr ('class') == "log_details") {
+			       $(obj).toggleClass ("selected");
 			       $(".log_details").fadeToggle ("fast", function () { $("body").removeClass ('busy'); });
 			       return;
 			   }
+			   $(".selected").removeClass ("selected");
+			   $(obj).addClass ("selected");
 			   $.get ($SCRIPT_ROOT + "/log/" + obj.attr ('data-id') + "/dyn",
 				  function (data) {
 				      log_details_change (obj, data);
