@@ -20,6 +20,9 @@ function stats_pie (target, title, rows, data) {
 		     },
 		     location: 's'
 		 },
+		 cursor: {
+		     show: false
+		 }
 	     });
 }
 
@@ -41,6 +44,9 @@ function stats_bar (target, title, ticks, counts) {
 			 min: 0,
 		     }
 		 },
+		 cursor: {
+		     show: false
+		 }
 	     });
 }
 
