@@ -13,7 +13,7 @@ Features
 
 * Easy installation & configuration
 * A neat & lean web interface to browse logs
-* Built upon solid foundations: `Flask`_, * `PyMongo`_, and HTML5 &
+* Built upon solid foundations: `Flask`_, `PyMongo`_, and HTML5 &
   AJAX - and degrades gracefully (usable even with lynx!)
 
 Installation
