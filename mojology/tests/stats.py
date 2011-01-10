@@ -46,4 +46,4 @@ class StatsTest (mojology.tests.TestCase):
 
         assert 'table.css' not in rv.data
         assert "<title>mojology | Statistics | Time</title>" in rv.data
-        assert 'time_stats = [{"date": 1294516800.0, "count": 39.0}];' in rv.data
+        assert 'time_stats = [{"count": 39.0, "ts": 1294516800.0}];' in rv.data

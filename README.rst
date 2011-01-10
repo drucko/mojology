@@ -7,7 +7,7 @@ destination driver`_.
 
 A little bit of extra configuration is necessary for the driver to
 produce a document structure that is expected by mojology: dynamic
-values need to be under the **dyn** key, the **date** key must be a
+values need to be under the **dyn** key, the **ts** key must be a
 *$UNIXTIME* macro, the *log level* and *facility* variables need to be
 in the **log.level** and **log.facility** keys, with the *program
 name* and the *pid* similarly under **program.name** and
@@ -24,7 +24,7 @@ To ease configuration, the following destination block will do just what mojolog
   destination d_mongo {
   	mongodb(
   		dynamic_values("dyn")
-      		keys("date", "host", "log.facility", "log.level", "program.name", "program.pid", "message")
+      		keys("ts", "host", "log.facility", "log.level", "program.name", "program.pid", "message")
   		values("$UNIXTIME", "$HOST", "$FACILITY", "$LEVEL", "$PROGRAM", "$PID", "$MSGONLY")
   	);
   };

@@ -126,10 +126,10 @@ $(document).ready (
 	if (typeof time_stats !== 'undefined') {
 	    r = [];
 	    d = time_stats.sort (function (a, b) {
-				     return a.date - b.date;
+				     return a.ts - b.ts;
 				 });
 	    $.each (d, function (index, value) {
-			t = new Date (value.date * 1000);
+			t = new Date (value.ts * 1000);
 			r.push ([t.getFullYear () + '-' + (t.getMonth() + 1) + '-' + t.getDate () + ' ' + t.getHours() + ':00:00', value.count]);
 		    });
 	    time_plot (r);

@@ -38,7 +38,7 @@ def log_entry_dump (v):
         return str (v)
 
 def get_logs (spec, page, extra = None):
-    l = dict (logs = g.coll.find (spec = spec, sort = [('date', -1)],
+    l = dict (logs = g.coll.find (spec = spec, sort = [('ts', -1)],
                                   skip = (page - 1) * g.pagesize,
                                   limit = g.pagesize),
               maxpage = g.coll.find (spec = spec).count () / g.pagesize + 1,

@@ -44,6 +44,6 @@ def programs ():
 @statsm.route ("/time/")
 @templated ()
 def time ():
-    time_stats = g.coll.group (Code ("function (doc) { d = new Date (doc.date * 1000); d.setMinutes(0); d.setSeconds(0); return { 'date': d.valueOf()/1000 } }"), {}, {"count": 0},
+    time_stats = g.coll.group (Code ("function (doc) { d = new Date (doc.ts * 1000); d.setMinutes(0); d.setSeconds(0); return { 'ts': d.valueOf()/1000 } }"), {}, {"count": 0},
                                "function (obj, prev) { prev.count++; }");
     return dict (time_stats = Markup (json.dumps (time_stats, default = pymongo.json_util.default)))
