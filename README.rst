@@ -11,12 +11,10 @@ data.
 Features
 --------
 
- * Easy installation & configuration
- * A neat & lean web interface to browse logs
- * Built upon solid foundations:
-   * `Flask`_
-   * `PyMongo`_
-   * HTML5 & AJAX - and degrades gracefully (usable even with lynx!)
+* Easy installation & configuration
+* A neat & lean web interface to browse logs
+* Built upon solid foundations: `Flask`_, * `PyMongo`_, and HTML5 &
+  AJAX - and degrades gracefully (usable even with lynx!)
 
 Installation
 ------------
@@ -48,14 +46,13 @@ Configuration
 Due to a design choice, mojology makes a few assumptions about the
 documents in the browsed collection:
 
- * A few keys must be present, namely:
-   * **ts**, containing the *$UNIXTIME* macro.
-   * **host**, the host where the log is coming from (most often, this
-     will be *$HOST*).
-   * **log.facility** and **log.level**, the log's facility, and
-     level, repsectively.
-   * **program.name** and **program.pid**, as their name implies.
-   * **message**, the message part of the log message.
+A few keys must be present, namely:
+
+* **ts**, containing the *$UNIXTIME* macro.
+* **host**, the host where the log is coming from (most often, this will be *$HOST*).
+* **log.facility** and **log.level**, the log's facility, and level, respectively.
+* **program.name** and **program.pid**, as their name implies.
+* **message**, the message part of the log message.
 
 Whatever else the document contains on the top level will be ignored
 by mojology, except for a configurable key, which hosts a
