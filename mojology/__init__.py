@@ -51,6 +51,11 @@ def Mojology (config_file = None, config_object = None):
         g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
         g.dyn_vars = current_app.config['MONGO_DYNVARS']
 
+    @app.after_request
+    def disconnect_mongo (response):
+        g.mongo.disconnect ()
+        return response
+
     @app.route ("/about")
     @app.route ("/about/")
     @templated ()
