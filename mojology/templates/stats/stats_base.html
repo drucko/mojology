@@ -5,16 +5,16 @@
 {% block content %}
 <section>
   <h3>
-    Dashboard
+    {% block stats_title %}{% endblock %}
 
     <nav id="stats_menu">
-      <a href="{{ url_for("stats.dashboard") }}">Hosts</a> |
+      <a href="{{ url_for("stats.hosts") }}">Hosts</a> |
       <a href="{{ url_for("stats.programs") }}">Programs</a> |
       <a href="{{ url_for("stats.time") }}">Time</a>
     </nav>
   </h3>
 
-  {% block stats %}{% include "stats/dashboard.html" %}{% endblock %}
+  {% block stats %}{% include "stats/hosts.html" %}{% endblock %}
 </section>
 {% endblock %}
 

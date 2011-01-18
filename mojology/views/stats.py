@@ -19,7 +19,7 @@
 ## ---------------------------------------------
 from mojology.utils import templated
 
-from flask import Module, g, Markup
+from flask import Module, g, Markup, redirect, url_for
 import pymongo.objectid, pymongo.json_util
 import json
 from pymongo.code import Code
@@ -28,7 +28,13 @@ statsm = Module (__name__)
 
 @statsm.route ("/")
 @templated ()
-def dashboard ():
+def index():
+    return redirect (url_for ("stats.hosts"))
+
+@statsm.route ("/hosts")
+@statsm.route ("/hosts/")
+@templated ()
+def hosts ():
     host_stats = g.coll.group (["host"], {}, {"count": 0 }, "function (obj, prev) { prev.count++; }");
     return dict (host_stats = Markup (json.dumps (host_stats, default = pymongo.json_util.default)))
 
