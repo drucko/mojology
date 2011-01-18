@@ -28,7 +28,7 @@ def url_for_page (page, hostname = None):
     if hostname:
         return url_for ('host', hostname = hostname, page = page)
     else:
-        return url_for ('dashboard', page = page)
+        return url_for ('index', page = page)
 
 def log_entry_dump (v):
     if type(v) == dict:
@@ -53,7 +53,7 @@ def get_logs (spec, page, extra = None):
 @browser.route ("/")
 @browser.route ("/page/<int(min=1):page>")
 @templated ()
-def dashboard (page = 1):
+def index (page = 1):
     return get_logs (None, page)
 
 @browser.route ("/host/<hostname>/")

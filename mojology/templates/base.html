@@ -18,7 +18,7 @@
       <h1>
 	<a href="{{ url_for(".dashboard") }}">mojology</a> |
 	<span id="menu">
-	  <a href="{{ url_for ("browser.dashboard") }}">logs</a> |
+	  <a href="{{ url_for ("browser.index") }}">logs</a> |
 	  <a href="{{ url_for ("stats.dashboard") }}">stats</a> |
 	  <a href="{{ url_for (".about") }}">about</a>
 	</span>
@@ -33,7 +33,7 @@
     </section>
 
     <script type=text/javascript>
-      {% if hostname %}$BASE_URL = "{{ url_for ("browser.host", hostname = hostname) }}";{% else %}$BASE_URL = "{{ url_for ("browser.dashboard") }}";{% endif %}
+      {% if hostname %}$BASE_URL = "{{ url_for ("browser.host", hostname = hostname) }}";{% else %}$BASE_URL = "{{ url_for ("browser.index") }}";{% endif %}
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
     </script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js" type="text/javascript" charset="utf-8"></script>

@@ -64,6 +64,6 @@ def Mojology (config_file = None, config_object = None):
 
     @app.route ("/")
     def dashboard ():
-        redirect (url_for ("browser.dashboard"))
+        redirect (url_for ("browser.index"))
 
     return app
