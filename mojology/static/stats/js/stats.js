@@ -136,7 +136,7 @@ $(document).ready (
 	    $.each (d, function (index, value) {
 			t = new Date (value['_id'] * 1000);
 			r.data.push ([t.getFullYear () + '-' + (t.getMonth() + 1) + '-' + t.getDate () + ' ' + t.getHours() + ':00:00', value.value.count]);
-			r.ts = value['_id'] * 1000;
+			r.ts = value.value.stamp['$date'];
 		    });
 	    time_plot (r.data);
 	}
