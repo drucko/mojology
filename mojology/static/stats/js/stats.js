@@ -26,8 +26,8 @@ function stats_pie (target, title, rows, data) {
 	     });
 }
 
-function stats_bar (target, title, ticks, counts) {
-    $.jqplot(target, [counts], {
+function stats_bar (target, title, data) {
+    $.jqplot(target, [data], {
 		 title: title,
 		 seriesDefaults: {
                      renderer: $.jqplot.BarRenderer,
@@ -38,7 +38,6 @@ function stats_bar (target, title, ticks, counts) {
 		 axes: {
                      xaxis: {
 			 renderer: $.jqplot.CategoryAxisRenderer,
-			 ticks: ticks
                      },
 		     yaxis: {
 			 min: 0,
@@ -51,18 +50,14 @@ function stats_bar (target, title, ticks, counts) {
 }
 
 function stats_setup (src, tick_field) {
-    res = {
-	pie: [],
-	bar: {
-	    ticks: [],
-	    counts: []
-	}
+    var res = {
+	data: [],
+	ts: 0
     };
 
     $.each (src, function (index, value) {
-		res.pie.push ([value[tick_field], value.count]);
-		res.bar.ticks.push (value[tick_field]);
-		res.bar.counts.push (value.count);
+		res.data.push ([value._id, value.value.count]);
+		res.ts = value.value.stamp['$date'];
 	    });
 
     return res;
@@ -108,30 +103,42 @@ function time_plot (src) {
 	     });
 }
 
+function set_timestamp (ts) {
+    t = new Date (ts);
+
+    $("time").html (t.toString ());
+}
+
 $(document).ready (
     function () {
 	$.jqplot.config.enablePlugins = true;
+	var r;
 
 	if (typeof host_stats !== 'undefined') {
-	    r = stats_setup (host_stats, "host");
+	    r = stats_setup (host_stats);
 
-	    stats_pie ("host_stats_pie", "Host message contribution", Math.max (1, r.bar.counts.length / 5), r.pie);
-	    stats_bar ("host_stats_bar", "Messages / Host", r.bar.ticks, r.bar.counts);
+	    stats_pie ("host_stats_pie", "Host message contribution", Math.max (1, r.data.length / 5), r.data);
+	    stats_bar ("host_stats_bar", "Messages / Host", r.data);
 	}
 	if (typeof prog_stats !== 'undefined') {
-	    r = stats_setup (prog_stats, "program.name");
+	    r = stats_setup (prog_stats);
 
-	    stats_pie ("prog_stats_pie", "Program message contribution", Math.max (1, r.bar.counts.length / 5), r.pie);
+	    stats_pie ("prog_stats_pie", "Program message contribution", Math.max (1, r.data.length / 5), r.data);
 	}
 	if (typeof time_stats !== 'undefined') {
-	    r = [];
+	    r = {
+		data: [],
+		ts: 0
+	    };
 	    d = time_stats.sort (function (a, b) {
 				     return a.ts - b.ts;
 				 });
 	    $.each (d, function (index, value) {
-			t = new Date (value.ts * 1000);
-			r.push ([t.getFullYear () + '-' + (t.getMonth() + 1) + '-' + t.getDate () + ' ' + t.getHours() + ':00:00', value.count]);
+			t = new Date (value['_id'] * 1000);
+			r.data.push ([t.getFullYear () + '-' + (t.getMonth() + 1) + '-' + t.getDate () + ' ' + t.getHours() + ':00:00', value.value.count]);
+			r.ts = value['_id'] * 1000;
 		    });
-	    time_plot (r);
+	    time_plot (r.data);
 	}
+	set_timestamp (r.ts);
     });
