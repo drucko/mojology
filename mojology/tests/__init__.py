@@ -31,6 +31,7 @@ class TestConfig (object):
     MONGO_DYNVARS = "dyn"
 
     MOJOLOGY_PAGESIZE = 10
+    MOJOLOGY_COLLECTION_PREFIX = "mojology."
 
 class TestCase (unittest.TestCase):
     def setUp (self):
@@ -41,6 +42,7 @@ class TestCase (unittest.TestCase):
         self.coll = self.db[TestConfig.MONGO_DB][TestConfig.MONGO_COLLECTION]
         self.pagesize = TestConfig.MOJOLOGY_PAGESIZE
         self.dyn_vars = TestConfig.MONGO_DYNVARS
+        self.cache = TestConfig.MOJOLOGY_COLLECTION_PREFIX
 
         self.coll.drop ()
 
@@ -50,6 +52,22 @@ class TestCase (unittest.TestCase):
             j = json.loads (line, object_hook = pymongo.json_util.object_hook)
             self.coll.insert (j)
 
+
+    def _mr (self, map_js, out):
+        self.coll.map_reduce (map_js,
+                              "function (k, vals) { var sum = { count: 0 }; for (var i in vals) sum.count += vals[i].count; return sum; }",
+                              out = self.cache + 'mr.' + out,
+                              finalize = "function (who, res) { res.stamp = new Date(); return res; }")
+
+    def do_mapreduce (self):
+        self._mr ("function () { emit(this.program.name, { count: 1 }); }", "programs")
+        self._mr ("function () { emit(this.host, { count: 1 }); }", "hosts")
+        self._mr ("function () { d = new Date (this.ts*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf()/1000, { count: 1 }); }",
+                  "time")
+
     def tearDown (self):
+        self.db[TestConfig.MONGO_DB][self.cache + 'mr.programs'].drop ()
+        self.db[TestConfig.MONGO_DB][self.cache + 'mr.hosts'].drop ()
+        self.db[TestConfig.MONGO_DB][self.cache + 'mr.time'].drop ()
         self.coll.drop ()
         self.db.disconnect ()

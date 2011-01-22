@@ -28,20 +28,20 @@ class BrowserTest (mojology.tests.TestCase):
         """Test that importing our data worked"""
         self.populate ()
         rv = self.app.get ("/")
-        assert "<header><h2>Dashboard</h2></header>" in rv.data
+        assert "<header><h2>Logs</h2></header>" in rv.data
         assert "Latest log messages, page #" in rv.data
         assert '<span id="page_counter">1</span>' in rv.data
         assert '<span id="maxpage">4</span>' in rv.data
 
-    def test_dashboard_pagination (self):
-        """Test dashboard pagination"""
+    def test_index_pagination (self):
+        """Test index pagination"""
         self.populate ()
         rv = self.app.get ("/page/2")
         assert '<span id="page_counter">2</span>' in rv.data
         assert '<a href="/log/4d28cb30f310ef4f0000001c" class="hidden">[35486.147294] warning: `VirtualBox&#39; uses 32-bit capabilities (legacy support ...</a>' in rv.data
 
-    def test_dashboard_pagination_oob (self):
-        """Test dashboard pagination, out of bounds cases"""
+    def test_index_pagination_oob (self):
+        """Test index pagination, out of bounds cases"""
         self.populate ()
 
         rv = self.app.get ("/page/0")
@@ -55,7 +55,8 @@ class BrowserTest (mojology.tests.TestCase):
         self.populate ()
 
         rv = self.app.get ("/host/luthien/")
-        assert "<title>mojology | Host details for luthien</title>" in rv.data
+        assert "<title>mojology | Logs</title>" in rv.data
+        assert "Latest log messagesfor luthien" in rv.data
         assert '<span id="page_counter">1</span>' in rv.data
         assert '<span id="maxpage">1</span>' in rv.data
 
@@ -64,7 +65,8 @@ class BrowserTest (mojology.tests.TestCase):
         self.populate ()
 
         rv = self.app.get ("/host/localhost/page/3")
-        assert "<title>mojology | Host details for localhost</title>" in rv.data
+        assert "<title>mojology | Logs</title>" in rv.data
+        assert "Latest log messagesfor localhost" in rv.data
         assert '<span id="page_counter">3</span>' in rv.data
         assert '<span id="maxpage">4</span>' in rv.data
 
@@ -91,7 +93,7 @@ class BrowserTest (mojology.tests.TestCase):
 
         rv = self.app.get ("/log/4d28cd01f310ef4f00000024")
 
-        assert "<title>mojology | Log entry details</title>" in rv.data
+        assert "<title>mojology | Logs" in rv.data
         assert "<h3>Log message #4d28cd01f310ef4f00000024</h3>" in rv.data
         assert "Hello world! This concludes our demo session." in rv.data
         assert "0xdeadbeef" in rv.data

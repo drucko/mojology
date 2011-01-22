@@ -18,32 +18,38 @@
 import mojology.tests
 
 class StatsTest (mojology.tests.TestCase):
-    def test_basic (self):
-        """Basic stats page test"""
+    def test_hosts (self):
+        """Test the host statistics"""
         self.populate ()
+        self.do_mapreduce ()
 
-        rv = self.app.get ("/stats/")
+        rv = self.app.get ("/stats/hosts/")
 
         assert "<title>mojology | Statistics</title>" in rv.data
         assert "table.css" not in rv.data
-        assert 'host_stats = [{"count": 7.0, "host": "luthien"}, {"count": 32.0, "host": "localhost"}];' in rv.data
+        assert 'host_stats = [{"_id": "localhost", "value": {"count": 32.0, ' in rv.data
+        assert '{"_id": "luthien", "value": {"count": 7.0' in rv.data
 
     def test_programs (self):
         """Test the program statistics"""
         self.populate ()
+        self.do_mapreduce ()
 
         rv = self.app.get ("/stats/programs/")
 
-        assert 'prog_stats = [{"count": 9.0, "program.name": "syslog-ng"}, {"count": 15.0, "program.name": "sshguard"}, {"count": 1.0, "program.name": "."}, {"count": 10.0, "program.name": "sshd"}, {"count": 1.0, "program.name": "hooman"}, {"count": 2.0, "program.name": "kernel"}, {"count": 1.0, "program.name": "hi"}];' in rv.data
+        assert "<title>mojology | Statistics</title>" in rv.data
         assert 'table.css' not in rv.data
-        assert "<title>mojology | Statistics | Programs</title>" in rv.data
+        assert 'prog_stats = [{' in rv.data
+        assert '{"_id": "syslog-ng", "value": {"count": 9.0' in rv.data
 
     def test_time (self):
         """Test the time-based stats"""
         self.populate ()
+        self.do_mapreduce ()
 
         rv = self.app.get ("/stats/time/")
 
         assert 'table.css' not in rv.data
-        assert "<title>mojology | Statistics | Time</title>" in rv.data
-        assert 'time_stats = [{"count": 39.0, "ts": 1294516800.0}];' in rv.data
+        assert "<title>mojology | Statistics</title>" in rv.data
+        assert 'time_stats = [{' in rv.data
+        assert '{"_id": 1294516800.0, "value": {"count": 39.0' in rv.data
