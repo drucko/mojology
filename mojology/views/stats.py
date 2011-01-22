@@ -31,25 +31,27 @@ statsm = Module (__name__)
 def index():
     return redirect (url_for ("stats.hosts"))
 
+def _mr_dump (subtable):
+    r = g.db[g.self_prefix + 'mr.' + subtable].find ()
+    s = []
+    for t in r:
+        s.append (t)
+    return Markup (json.dumps (s, default = pymongo.json_util.default))
+
 @statsm.route ("/hosts")
 @statsm.route ("/hosts/")
 @templated ()
 def hosts ():
-    host_stats = g.coll.group (["host"], {}, {"count": 0 }, "function (obj, prev) { prev.count++; }");
-    return dict (host_stats = Markup (json.dumps (host_stats, default = pymongo.json_util.default)))
+    return dict (host_stats = _mr_dump ('hosts'))
 
 @statsm.route ("/programs")
 @statsm.route ("/programs/")
 @templated ()
 def programs ():
-    prog_stats = g.coll.group (["program.name"], {}, {"count": 0},
-                               "function (obj, prev) { prev.count++; }");
-    return dict (prog_stats = Markup (json.dumps (prog_stats, default = pymongo.json_util.default)))
+    return dict (prog_stats = _mr_dump ('programs'))
 
 @statsm.route ("/time")
 @statsm.route ("/time/")
 @templated ()
 def time ():
-    time_stats = g.coll.group (Code ("function (doc) { d = new Date (doc.ts * 1000); d.setMinutes(0); d.setSeconds(0); return { 'ts': d.valueOf()/1000 } }"), {}, {"count": 0},
-                               "function (obj, prev) { prev.count++; }");
-    return dict (time_stats = Markup (json.dumps (time_stats, default = pymongo.json_util.default)))
+    return dict (time_stats = _mr_dump ('time'))

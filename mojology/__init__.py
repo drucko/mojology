@@ -45,11 +45,13 @@ def Mojology (config_file = None, config_object = None):
             g.mongo = pymongo.Connection (current_app.config['MONGO_HOST'], current_app.config['MONGO_PORT'])
         except pymongo.errors.ConnectionFailure, e:
             abort (500)
-        g.coll = g.mongo[current_app.config['MONGO_DB']][current_app.config['MONGO_COLLECTION']]
+        g.db = g.mongo[current_app.config['MONGO_DB']]
+        g.coll = g.db[current_app.config['MONGO_COLLECTION']]
         if not g.coll:
             abort (500)
         g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
         g.dyn_vars = current_app.config['MONGO_DYNVARS']
+        g.self_prefix = current_app.config['MOJOLOGY_COLLECTION_PREFIX']
 
     @app.after_request
     def disconnect_mongo (response):
