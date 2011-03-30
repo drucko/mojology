@@ -14,7 +14,7 @@
   </h3>
 
   {% import "browser/log_main.html" as lm %}
-  {{ lm.log_table (logs, True) }}
+  {{ lm.log_table (columner, logs, True) }}
 
   <nav>
     {% if page > 1 %}
