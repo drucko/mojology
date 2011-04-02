@@ -20,7 +20,8 @@ section section h3 {
 }
 
 .wide {
-	width: 80%;
+	width: 100%;
+	margin: 0;
 }
 
 #stats_menu {
