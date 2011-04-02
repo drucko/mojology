@@ -1,53 +1,52 @@
-function stats_pie (target, title, rows, data) {
-    $.jqplot(target, [data], {
-		 title: title,
-		 grid: {
-		     drawBorder: false,
-		     drawGridlines: false,
-		     background: '#ffffff',
-		     shadow: false
-		 },
-		 seriesDefaults:{
-		     renderer: $.jqplot.PieRenderer,
-		     rendererOptions: {
-			 showDataLabels: true
-		     },
-		 },
-		 legend: {
-		     show: true,
-		     rendererOptions: {
-			 numberRows: rows
-		     },
-		     location: 's'
-		 },
-		 cursor: {
-		     show: false
-		 }
-	     });
-}
+function stats_pie (target, legend, data) {
+    $.plot (target, data, {
+		series: {
+		    pie: {
+			show: true,
+			radius: 1,
+			stroke: {
+			    color: "#000"
+			},
+			label: {
+			    show: true,
+			    radius: 2/3,
+			    treshold: 0.1,
+			    formatter: function (label, series) {
+				return '<div class="pie-label">' + label + '<br>' + series.data[0][1] + ' (' + Math.round (series.percent) + '%)</div>';
+			    },
+			    background: {
+				color: "#000",
+				opacity: 0.5
+			    }
+			}
+		    }
+		},
+		grid: {
+		    hoverable: true,
+		},
+		legend: {
+		    container: legend
+		},
+	    });
+    legend.find ("table").css ("font-size", "");
+    target.bind ("plothover", function (event, pos, item) {
+		     if (!item)
+			 return;
+		     l = target.find (".pieLabelBackground");
+		     l.hide();
+		     x = l[item.seriesIndex];
+		     $(x).css ("visibility", "visible").show();
 
-function stats_bar (target, title, data) {
-    $.jqplot(target, [data], {
-		 title: title,
-		 seriesDefaults: {
-                     renderer: $.jqplot.BarRenderer,
-		     rendererOptions: {
-			 varyBarColor: true
-		     }
-		 },
-		 axes: {
-                     xaxis: {
-			 renderer: $.jqplot.CategoryAxisRenderer,
-                     },
-		     yaxis: {
-			 min: 0,
-		     }
-		 },
-		 cursor: {
-		     show: false
-		 }
-	     });
-}
+		     l = target.find (".pie-label");
+		     l.hide();
+		     x = l[item.seriesIndex];
+		     $(x).css ("opacity", 1).show();
+		 });
+    target.bind ("mouseout", function () {
+		     target.find (".pie-label").hide ();
+		     target.find (".pieLabelBackground").hide ();
+		 });
+};
 
 function stats_setup (src, tick_field) {
     var res = {
@@ -56,51 +55,76 @@ function stats_setup (src, tick_field) {
     };
 
     $.each (src, function (index, value) {
-		res.data.push ([value._id, value.value.count]);
+		res.data.push ({ label: value._id, data: value.value.count});
 		res.ts = value.value.stamp['$date'];
 	    });
 
     return res;
 }
 
-function time_plot (src) {
-    $.jqplot('time_plot', [src], { 
-		 title: 'Hourly messages over time', 
-		 series:[
-		     {
-			 label: "Messages",
-			 showMarker: true,
-		     }
-		 ],
-		 axes: {
-		     yaxis: {
-			 min: 0,
-			 label: "Messages received",
-			 labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
+function stats_time (target, data) {
+    $.plot (target, [data], {
+		xaxis: {
+		    mode: "time",
+		    timeformat: "%y-%0m-%0d",
+		    minTickSize: [1, "day"],
+		},
+		grid: {
+		    hoverable: true
+		},
+		series: {
+		    lines: {
+			show: true,
+			fill: true
+		    },
+		    points: {
+			show: true
+		    }
+		}
+	    });
+    
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+							       position: 'absolute',
+							       display: 'none',
+							       top: y + 5,
+							       left: x + 5,
+							       border: '1px solid #fdd',
+							       padding: '2px',
+							       'background-color': '#fee',
+							       opacity: 0.80
+							   }).appendTo("body").fadeIn(200);
+    }
 
-			 labelOptions: {
-			     angle: -90,
-			 },
-		     },
-		     xaxis: {
-			 tickRenderer: $.jqplot.CanvasAxisTickRenderer,
-			 tickOptions: {
-			     showLabel: true,
-			     isMinorTick: true,
-			     formatString: "%F, %Hh"
-			 },
-			 labelRenderer: $.jqplot.CanvasAxisLabelRenderer,
-			 label: "Date",
-			 autoscale: true,
-			 renderer: $.jqplot.DateAxisRenderer,
-		     },
-		 },
-		 cursor: {
-		     followMouse: true,
-		     showTooltipDataPosition: true,
-		     showVerticalLine: true
-		 }
-	     });
+    function pad2 (number) {
+        return (number < 10 ? '0' : '') + number
+    }
+ 
+    var previousPoint = null;
+    target.bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(2));
+        $("#y").text(pos.y.toFixed(2));
+ 
+        if ($("#enableTooltip:checked").length > 0 || 1) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    
+                    $("#tooltip").remove();
+                    var x = new Date (item.datapoint[0]);
+                    var y = item.datapoint[1];
+		    var d = x.getFullYear () + '-' + pad2 (x.getMonth() + 1) + '-' + pad2 (x.getDate ()) + ' ' + pad2 (x.getHours()) + 'h';
+                    
+                    showTooltip(item.pageX, item.pageY,
+                                "Log messages at " + d + ": " + y);
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;            
+            }
+        }
+    });
 }
 
 function set_timestamp (ts) {
@@ -111,19 +135,17 @@ function set_timestamp (ts) {
 
 $(document).ready (
     function () {
-	$.jqplot.config.enablePlugins = true;
 	var r;
 
 	if (typeof host_stats !== 'undefined') {
 	    r = stats_setup (host_stats);
 
-	    stats_pie ("host_stats_pie", "Host message contribution", Math.max (1, r.data.length / 5), r.data);
-	    stats_bar ("host_stats_bar", "Messages / Host", r.data);
+	    stats_pie ($("#host_stats_pie"), $("#host_stats_legend"), r.data);
 	}
 	if (typeof prog_stats !== 'undefined') {
 	    r = stats_setup (prog_stats);
 
-	    stats_pie ("prog_stats_pie", "Program message contribution", Math.max (1, r.data.length / 5), r.data);
+	    stats_pie ($("#prog_stats_pie"), $("#prog_stats_legend"), r.data);
 	}
 	if (typeof time_stats !== 'undefined') {
 	    r = {
@@ -131,14 +153,13 @@ $(document).ready (
 		ts: 0
 	    };
 	    d = time_stats.sort (function (a, b) {
-				     return a.ts - b.ts;
+				     return a['_id'] - b['_id'];
 				 });
 	    $.each (d, function (index, value) {
-			t = new Date (value['_id'] * 1000);
-			r.data.push ([t.getFullYear () + '-' + (t.getMonth() + 1) + '-' + t.getDate () + ' ' + t.getHours() + ':00:00', value.value.count]);
+			r.data.push ([value['_id'], value.value.count]);
 			r.ts = value.value.stamp['$date'];
 		    });
-	    time_plot (r.data);
+	    stats_time ($("#time_stats"), r.data);
 	}
 	set_timestamp (r.ts);
     });

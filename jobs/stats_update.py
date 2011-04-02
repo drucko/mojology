@@ -39,5 +39,5 @@ def mr (map_js, out):
 
 mr ("function () { emit(this.%s, { count: 1 }); }" % columnizer.get_program_field (), "programs")
 mr ("function () { emit(this.%s, { count: 1 }); }" % columnizer.get_host_field (), "hosts")
-mr ("function () { d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf()/1000, { count: 1 }); }" % columnizer.get_date_field (),
+mr ("function () { var d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf(), { count: 1 }); }" % columnizer.get_date_field (),
     "time")

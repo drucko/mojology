@@ -3,8 +3,12 @@
 {% block stats_title %}Hosts{% endblock %}
 
 {% block stats %}
-  <div id="host_stats_pie" class="plotted"></div>
-  <div id="host_stats_bar" class="plotted"></div>
+  <div class="stat-block">
+    <h2>Host message contribution</h2>
+
+    <div id="host_stats_legend" class="legend-container"></div>
+    <div id="host_stats_pie" class="plotted"></div>
+  </div>
 
   <script type="text/javascript">
     host_stats = {{ host_stats }};
