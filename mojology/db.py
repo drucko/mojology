@@ -94,3 +94,86 @@ class DefaultLayout:
                 self.keys[name] = self.msg[key]
 
         return ""
+
+class OldLayout:
+    msg = None
+    headers = None
+    fields = None
+    sort_on = None
+    keys = None
+
+    def _get_key (self, key):
+        if key in self.msg:
+            return self.msg[key]
+        else:
+            if key.index ('.'):
+                (p, c) = key.split ('.')
+                if (p in self.msg) and (c in self.msg[p]):
+                    return self.msg[p][c]
+            return ""
+
+    def __init__ (self, *args, **kwargs):
+        self.setup (*args, **kwargs)
+
+    def setup (self, msg = None):
+        if msg:
+            self.set_msg (msg)
+
+        self.headers = [
+            {
+                'name': 'Date',
+                'path': 'ts',
+                'is_date': True
+            },
+            {
+                'name': 'Host',
+                'path': 'host',
+                'is_host': True,
+            },
+            {
+                'name': 'Facility & Level',
+                'path': ['log.facility', '.', 'log.level']
+            },
+            {
+                'name': 'Program',
+                'path': 'program.name',
+            },
+            {
+                'name': 'Message',
+                'path': 'message',
+                'is_message': True,
+            }
+        ]
+    
+        self.fields = dict (date = 'ts',
+                            host = 'host',
+                            program = 'program.name',
+                            message = 'message'
+                           )
+        self.sort_on = 'ts'
+            
+    def set_msg (self, msg):
+        self.msg = msg
+        for h in self.headers:
+            if type (h['path']) == list:
+                h['value'] = ""
+                for p in h['path']:
+                    if self._get_key (p) != "":
+                        h['value'] += self._get_key (p)
+                    else:
+                        h['value'] += p
+            else:
+                h['value'] = self._get_key (h['path'])
+                
+        if self._get_key ('program.pid') != "":
+            self.headers[3]['value'] += '[' + self._get_key ('program.pid') + ']'
+
+        self.keys = dict ()
+        for key in self.msg['dyn']:
+            if key.upper () == key:
+                name = key.capitalize ()
+            else:
+                name = key
+            self.keys[name] = self.msg['dyn'][key]
+
+        return ""
