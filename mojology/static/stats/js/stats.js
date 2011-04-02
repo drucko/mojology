@@ -62,7 +62,69 @@ function stats_setup (src, tick_field) {
     return res;
 }
 
-function time_plot (src) {
+function stats_time (target, data) {
+    $.plot (target, [data], {
+		xaxis: {
+		    mode: "time",
+		    timeformat: "%y-%0m-%0d",
+		    minTickSize: [1, "day"],
+		},
+		grid: {
+		    hoverable: true
+		},
+		series: {
+		    lines: {
+			show: true,
+			fill: true
+		    },
+		    points: {
+			show: true
+		    }
+		}
+	    });
+    
+    function showTooltip(x, y, contents) {
+        $('<div id="tooltip">' + contents + '</div>').css( {
+							       position: 'absolute',
+							       display: 'none',
+							       top: y + 5,
+							       left: x + 5,
+							       border: '1px solid #fdd',
+							       padding: '2px',
+							       'background-color': '#fee',
+							       opacity: 0.80
+							   }).appendTo("body").fadeIn(200);
+    }
+
+    function pad2 (number) {
+        return (number < 10 ? '0' : '') + number
+    }
+ 
+    var previousPoint = null;
+    target.bind("plothover", function (event, pos, item) {
+        $("#x").text(pos.x.toFixed(2));
+        $("#y").text(pos.y.toFixed(2));
+ 
+        if ($("#enableTooltip:checked").length > 0 || 1) {
+            if (item) {
+                if (previousPoint != item.dataIndex) {
+                    previousPoint = item.dataIndex;
+                    
+                    $("#tooltip").remove();
+                    var x = new Date (item.datapoint[0]);
+                    var y = item.datapoint[1];
+		    var d = x.getFullYear () + '-' + pad2 (x.getMonth() + 1) + '-' + pad2 (x.getDate ()) + ' ' + pad2 (x.getHours()) + 'h';
+                    
+                    showTooltip(item.pageX, item.pageY,
+                                "Log messages at " + d + ": " + y);
+                }
+            }
+            else {
+                $("#tooltip").remove();
+                previousPoint = null;            
+            }
+        }
+    });
 }
 
 function set_timestamp (ts) {
@@ -91,14 +153,13 @@ $(document).ready (
 		ts: 0
 	    };
 	    d = time_stats.sort (function (a, b) {
-				     return a.ts - b.ts;
+				     return a.value.stamp['$date'] - b.value.stamp['$date'];
 				 });
 	    $.each (d, function (index, value) {
-			t = new Date (value['_id'] * 1000);
-			r.data.push ([t.getFullYear () + '-' + (t.getMonth() + 1) + '-' + t.getDate () + ' ' + t.getHours() + ':00:00', value.value.count]);
+			r.data.push ([value['_id'] * 1000, value.value.count]);
 			r.ts = value.value.stamp['$date'];
 		    });
-	    //time_plot (r.data);
+	    stats_time ($("#time_stats"), r.data);
 	}
 	set_timestamp (r.ts);
     });

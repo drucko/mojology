@@ -3,7 +3,11 @@
 {% block stats_title %}Time-based{% endblock %}
 
 {% block stats %}
-<div id="time_plot" class="plotted wide"></div>
+  <div class="stat-block">
+    <h2>Messages / hour</h2>
+
+    <div id="time_stats" class="plotted wide"></div>
+  </div>
 
 <script type="text/javascript">
   time_stats = {{ time_stats }};
