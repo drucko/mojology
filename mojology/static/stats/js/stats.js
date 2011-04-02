@@ -12,7 +12,7 @@ function stats_pie (target, legend, data) {
 			    radius: 2/3,
 			    treshold: 0.1,
 			    formatter: function (label, series) {
-				return '<div class="pie-label">' + label + '<br>' + Math.round (series.percent) + '%</div>';
+				return '<div class="pie-label">' + label + '<br>' + series.data[0][1] + ' (' + Math.round (series.percent) + '%)</div>';
 			    },
 			    background: {
 				color: "#000",
