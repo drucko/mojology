@@ -43,37 +43,39 @@ collection, see the next section!
 Configuration
 -------------
 
-Due to a design choice, mojology makes a few assumptions about the
-documents in the browsed collection:
+Though one can customize the database layout to some extent, how to do
+that is out of the scope of this small document. Instead, we'll have a
+look at how to set up syslog-ng to produce documents with which
+mojology can work with.
 
-A few keys must be present, namely:
+By default, we only need a simple change: the **DATE** key must be a
+*$UNIXTIME* macro. Apart from this, mojology does not make many more
+assumptions, and by default, uses the same keys for the various bits
+of information (host, program, message, etc) that syslog-ng uses by
+default.
 
-* **ts**, containing the *$UNIXTIME* macro.
-* **host**, the host where the log is coming from (most often, this will be *$HOST*).
-* **log.facility** and **log.level**, the log's facility, and level, respectively.
-* **program.name** and **program.pid**, as their name implies.
-* **message**, the message part of the log message.
-
-Whatever else the document contains on the top level will be ignored
-by mojology, except for a configurable key, which hosts a
-sub-document, containing various, dynamic keys: such as the variables
-produced with patterndb (or any other parser).
-
-By default, this key is **dyn**.
-
-To ease configuration, the following destination block will do just what mojology needs:
+Thus, in order to get all the information mojology needs, along with
+every discovered (by patterndb or similar) key, one could use the
+following destination definition:
 
 ::
 
   destination d_mongo {
   	mongodb(
-  		dynamic_values("dyn")
-      		keys("ts", "host", "log.facility", "log.level", "program.name", "program.pid", "message")
-  		values("$UNIXTIME", "$HOST", "$FACILITY", "$LEVEL", "$PROGRAM", "$PID", "$MSGONLY")
-  	);
+	        value-pairs(
+			scope(selected_macros nv_pairs)
+			exclude("R_*")
+			exclude("S_*")
+			exclude("HOST_FROM")
+			exclude("LEGACY_MSGHDR")
+			exclude("MSG")
+			pair("DATE" "$UNIXTIME")
+		)
+	);
   };
   
-Sprinkle the log block with some patterndb or other parser magic, and you're good to go!
+Sprinkle the log block with some patterndb or other parser magic, and
+you're good to go!
 
 If one wants to configure mojology itself, the best course of action
 is to copy the **mojology/default_settings.py** file to the root
