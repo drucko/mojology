@@ -15,46 +15,18 @@
   </p>
 
   <p>
-    A little bit of extra configuration is necessary for the driver to
-    produce a document structure that is expected by mojology: dynamic
-    values need to be under the <strong>dyn</strong> key,
-    the <strong>date</strong> key must be a <em>$UNIXTIME</em> macro,
-    the <em>log level</em> and <em>facility</em> variables need to be
-    in the <strong>log.level</strong>
-    and <strong>log.facility</strong> keys, with the <em>program
-    name</em> and the <em>pid</em> similarly
-    under <strong>program.name</strong>
-    and <strong>program.pid</strong>.
+    For installation and configuration instructions, see
+    the <a href="https://github.com/algernon/mojology/blob/master/README.rst#readme">README</a>
+    in the <a href="https://github.com/algernon/mojology">sources</a>!
   </p>
 
-  <p>
-    The document also needs to contain a <strong>message</strong> key.
-  </p>
+  <h4>Features</h4>
 
-  <p>
-    Any other key than these is ignored, unless it is
-    below <strong>dyn</strong>.
-  </p>
-
-  <p>
-    To ease configuration, the following destination block will do
-    just what mojology needs:
-  </p>
-
-  <pre>
-destination d_mongo {
-	mongodb(
-		dynamic_values("dyn")
-    		keys("date", "host", "log.facility", "log.level", "program.name", "program.pid", "message")
-		values("$UNIXTIME", "$HOST", "$FACILITY", "$LEVEL", "$PROGRAM", "$PID", "$MSGONLY")
-	);
-};
-  </pre>
-
-  <p>
-    Sprinkle the <strong>log</strong> block with some patterndb or
-    other parser magic, and you're good to go!
-  </p>
+  <ul>
+    <li> Easy installation &amp; configuration
+    <li> A neat &amp; lean web interface to browse logs
+    <li> Small footprint
+  </ul>
 
   <hr>
 
