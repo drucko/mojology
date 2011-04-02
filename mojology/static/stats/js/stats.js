@@ -153,10 +153,10 @@ $(document).ready (
 		ts: 0
 	    };
 	    d = time_stats.sort (function (a, b) {
-				     return a.value.stamp['$date'] - b.value.stamp['$date'];
+				     return a['_id'] - b['_id'];
 				 });
 	    $.each (d, function (index, value) {
-			r.data.push ([value['_id'] * 1000, value.value.count]);
+			r.data.push ([value['_id'], value.value.count]);
 			r.ts = value.value.stamp['$date'];
 		    });
 	    stats_time ($("#time_stats"), r.data);
