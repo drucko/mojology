@@ -29,7 +29,7 @@ conn = pymongo.Connection (m.config['MONGO_HOST'], m.config['MONGO_PORT'])
 db = conn[m.config['MONGO_DB']]
 coll = db[m.config['MONGO_COLLECTION']]
 cache = m.config['MOJOLOGY_COLLECTION_PREFIX']
-columnizer = m.config['MOJOLOGY_COLUMNIZER']
+layout = m.config['MOJOLOGY_LAYOUT']
 
 def mr (map_js, out):
     coll.map_reduce (map_js,
@@ -37,7 +37,7 @@ def mr (map_js, out):
                      out = cache + 'mr.' + out,
                      finalize = "function (who, res) { res.stamp = new Date(); return res; }")
 
-mr ("function () { emit(this.%s, { count: 1 }); }" % columnizer.get_program_field (), "programs")
-mr ("function () { emit(this.%s, { count: 1 }); }" % columnizer.get_host_field (), "hosts")
-mr ("function () { var d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf(), { count: 1 }); }" % columnizer.get_date_field (),
+mr ("function () { emit(this.%s, { count: 1 }); }" % layout.fields['program'], "programs")
+mr ("function () { emit(this.%s, { count: 1 }); }" % layout.fields['host'], "hosts")
+mr ("function () { var d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf(), { count: 1 }); }" % layout.fields['date'],
     "time")

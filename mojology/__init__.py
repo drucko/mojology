@@ -51,7 +51,7 @@ def Mojology (config_file = None, config_object = None):
             abort (500)
         g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
         g.self_prefix = current_app.config['MOJOLOGY_COLLECTION_PREFIX']
-        g.columner = current_app.config['MOJOLOGY_COLUMNIZER']
+        g.layout = current_app.config['MOJOLOGY_LAYOUT']
 
     @app.after_request
     def disconnect_mongo (response):
