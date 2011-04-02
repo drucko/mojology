@@ -5,9 +5,9 @@
   <h3>Log message #{{ log._id }}</h3>
 
   {% import "browser/log_main.html" as lm %}
-  {{ lm.log_table (columner, [log]) }}
+  {{ lm.log_table (layout, [log]) }}
 
   {% import "browser/log_details.html" as dyn %}
-  {{ dyn.log_details (columner, log, dyn_vars, mojology_dump, False) }} 
+  {{ dyn.log_details (layout, log, dyn_vars, mojology_dump, False) }} 
 </section>
 {% endblock %}

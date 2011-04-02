@@ -38,13 +38,13 @@ def log_entry_dump (v):
         return str (v)
 
 def get_logs (spec, page, extra = None):
-    l = dict (logs = g.coll.find (spec = spec, sort = [(g.columner.get_date_field (), -1)],
+    l = dict (logs = g.coll.find (spec = spec, sort = [(g.layout.sort_on, -1)],
                                   skip = (page - 1) * g.pagesize,
                                   limit = g.pagesize),
               maxpage = g.coll.find (spec = spec).count () / g.pagesize + 1,
               page = page,
               mojology_page = url_for_page,
-              columner = g.columner)
+              layout = g.layout)
     if page > l['maxpage']:
         abort (404)
     if extra:
@@ -61,7 +61,7 @@ def index (page = 1):
 @browser.route ("/host/<hostname>/page/<int(min=1):page>")
 @templated ()
 def host(hostname, page = 1):
-    d = get_logs ({g.columner.get_host_field (): hostname}, page, { 'hostname': hostname })
+    d = get_logs ({g.layout.fields['host']: hostname}, page, { 'hostname': hostname })
     if d['logs'].count () == 0:
         abort (404)
     return d
@@ -80,7 +80,7 @@ def log (logid):
         abort (404)
 
     return dict (log = entry, mojology_dump = log_entry_dump,
-                 columner = g.columner)
+                 layout = g.layout)
 
 @browser.route ("/log/<logid>/dyn")
 def log_dyn (logid):

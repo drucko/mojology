@@ -1,5 +1,6 @@
-{% macro log_details(columner, log, dyn_vars, mojology_dump, need_table = True) -%}
-{% if columner.get_message (log)|length > 72 %}
+{% macro log_details(layout, log, dyn_vars, mojology_dump, need_table = True) -%}
+{{ layout.set_msg (log) }}
+{% if log[layout.fields.message]|length > 72 %}
 {% if need_table %}
 <tr class="log_details">
   <td colspan="5">
@@ -12,7 +13,7 @@
       </thead>
       <tbody>
 	<tr>
-	  <td>{{ columner.get_message (log) }}</td>
+	  <td>{{ log[layout.fields.message] }}</td>
 	</tr>
       </tbody>
     </table>
@@ -29,19 +30,15 @@
     <table id="dynamic_values">
       <thead>
 	<tr>
-	  {% for f in log %}
-	  {% if columner.filter_key (f) %}
-	  <th>{{ columner.filter_key (f) }}</th>
-	  {% endif %}
+	  {% for f in layout.keys %}
+	  <th>{{ f }}</th>
 	  {% endfor %}
 	</tr>
       </thead>
       <tbody>
 	<tr>
-	  {% for f in log %}
-	  {% if columner.filter_key (f) %}
-	  <td>{{ mojology_dump (log[f]) }}</td>
-	  {% endif %}
+	  {% for f in layout.keys %}
+	  <td>{{ mojology_dump (layout.keys[f]) }}</td>
 	  {% endfor %}
 	</tr>
       </tbody>

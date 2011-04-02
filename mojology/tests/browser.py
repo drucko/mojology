@@ -129,4 +129,4 @@ class BrowserTest (mojology.tests.TestCase):
         assert "<title>" not in rv.data
         assert '<table id="message">' in rv.data
         assert "dst.mongodb" in rv.data
-        assert "<th>Classifier</th>" in rv.data
+        assert "<th>classifier</th>" in rv.data

@@ -1,34 +1,31 @@
-{% macro log_table(columner, logs, is_main = False) -%}
+{% macro log_table(layout, logs, is_main = False) -%}
 <table id="main_table">
   <thead>
     <tr>
-      <th>Date</th>
-      <th>Host</th>
-      <th>Facility & Level</th>
-      <th>Program</th>
-      <th>Message</th>
+      {% for header in layout.headers %}
+      <th>{{ header.name }}</th>
+      {% endfor %}
     </tr>
   </thead>
   <tbody>
     {% for log in logs %}
+    {{ layout.set_msg (log) }}
     <tr class="{{ loop.cycle ('odd', 'even') }}{% if is_main %} clickable{% endif %}" data-id="{{ log._id }}">
-      <td class="nowrap">{{ columner.get_date (log)|datetime }}</td>
+      {% for h in layout.headers %}
       <td class="nowrap">
-	{% if is_main %}
-	<a href="{{ url_for ("host", hostname = columner.get_host (log)) }}">{{ columner.get_host (log) }}</a>
+	{% if h.is_date %}{{ h.value|datetime }}{% else %}
+	{% if h.is_host and is_main %}<a href="{{ url_for ("host", hostname = h.value) }}">{{ h.value }}</a>{% else %}
+	{% if h.is_message %}
+	  {% if is_main %}
+	    <a href="{{ url_for ("log", logid = log._id) }}" class="hidden">{{ h.value|truncate(length=80) }}</a>
+	  {% else %}
+	    {{ h.value|truncate(length=80) }}
+	  {% endif %}
 	{% else %}
-	{{ columner.get_host (log) }}
-	{% endif %}
+	{{ h.value }}
+	{% endif %}{% endif %}{% endif %}
       </td>
-      <td class="nowrap">{{ columner.get_facility (log) }}.{{ columner.get_level (log) }}</td>
-      <td class="nowrap">{{ columner.get_program (log) }}{% if columner.get_pid (log) %}[{{ columner.get_pid (log) }}]{% endif %}</td>
-      <td>
-	{% if is_main %}
-	<a href="{{ url_for ("log", logid = log._id) }}" class="hidden">{{ columner.get_message (log)|truncate(length=80) }}</a>
-	{% else %}
-	{{ columner.get_message (log)|truncate(length=80) }}
-	{% endif %}
-      </td>
+      {% endfor %}
     </tr>
     {% endfor %}
   </tbody>

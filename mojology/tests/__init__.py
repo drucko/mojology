@@ -16,7 +16,7 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from mojology import Mojology
-from mojology.config import Columnizer
+from mojology.db import DefaultLayout
 import unittest
 import pymongo, pymongo.json_util
 import json
@@ -33,7 +33,7 @@ class TestConfig (object):
     MOJOLOGY_PAGESIZE = 10
     MOJOLOGY_COLLECTION_PREFIX = "mojology."
 
-    MOJOLOGY_COLUMNIZER = Columnizer ()
+    MOJOLOGY_LAYOUT = DefaultLayout ()
 
 class TestCase (unittest.TestCase):
     def setUp (self):
@@ -44,7 +44,7 @@ class TestCase (unittest.TestCase):
         self.coll = self.db[TestConfig.MONGO_DB][TestConfig.MONGO_COLLECTION]
         self.pagesize = TestConfig.MOJOLOGY_PAGESIZE
         self.cache = TestConfig.MOJOLOGY_COLLECTION_PREFIX
-        self.columnizer = TestConfig.MOJOLOGY_COLUMNIZER
+        self.layout = TestConfig.MOJOLOGY_LAYOUT
 
         self.coll.drop ()
 
@@ -62,9 +62,9 @@ class TestCase (unittest.TestCase):
                               finalize = "function (who, res) { res.stamp = new Date(); return res; }")
 
     def do_mapreduce (self):
-        self._mr ("function () { emit(this.%s, { count: 1 }); }" % self.columnizer.get_program_field (), "programs")
-        self._mr ("function () { emit(this.%s, { count: 1 }); }" % self.columnizer.get_host_field (), "hosts")
-        self._mr ("function () { d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf()/1000, { count: 1 }); }" % self.columnizer.get_date_field (),
+        self._mr ("function () { emit(this.%s, { count: 1 }); }" % self.layout.fields['program'], "programs")
+        self._mr ("function () { emit(this.%s, { count: 1 }); }" % self.layout.fields['host'], "hosts")
+        self._mr ("function () { d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf()/1000, { count: 1 }); }" % self.layout.fields['date'],
                   "time")
 
     def tearDown (self):
