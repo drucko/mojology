@@ -25,32 +25,15 @@
 {% block extra_head %}
 <!--[if IE]><script language="javascript" type="text/javascript"
     src="{{ url_for (".static", filename = "stats/js/excanvas.min.js") }}"></script><![endif]-->
-
-<link rel="stylesheet" type="text/css"
-      href="{{ url_for (".static", filename = "stats/css/jquery.jqplot.min.css") }}">
 <link rel="stylesheet" type="text/css"
       href="{{ url_for (".static", filename = "stats/css/stats.css") }}">
 {% endblock %}
 
 {% block extra_js %}
 <script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/jquery.jqplot.min.js") }}"></script>
+	src="{{ url_for (".static", filename = "stats/js/flot/jquery.flot.min.js") }}"></script>
 <script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.pieRenderer.min.js") }}"></script>
-<script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.barRenderer.min.js") }}"></script>
-<script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.categoryAxisRenderer.min.js") }}"></script>
-<script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.canvasTextRenderer.min.js") }}"></script>
-<script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.canvasAxisLabelRenderer.min.js") }}"></script>
-<script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.canvasAxisTickRenderer.min.js") }}"></script>
-<script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.cursor.min.js") }}"></script>
-<script type="text/javascript"
-	src="{{ url_for (".static", filename = "stats/js/plugins/jqplot.dateAxisRenderer.min.js") }}"></script>
+	src="{{ url_for (".static", filename = "stats/js/flot/jquery.flot.pie.min.js") }}"></script>
 <script type="text/javascript"
 	src="{{ url_for (".static", filename = "stats/js/stats.js") }}"></script>
 {% endblock %}

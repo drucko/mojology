@@ -1,0 +1,3 @@
+[submodule "mojology/static/stats/js/flot"]
+	path = mojology/static/stats/js/flot
+	url = git://github.com/flot/flot.git
