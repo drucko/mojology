@@ -106,10 +106,13 @@ class OldLayout:
         if key in self.msg:
             return self.msg[key]
         else:
-            if key.index ('.'):
-                (p, c) = key.split ('.')
-                if (p in self.msg) and (c in self.msg[p]):
-                    return self.msg[p][c]
+            try:
+                key.index ('.')
+            except:
+                return ""
+            (p, c) = key.split ('.')
+            if (p in self.msg) and (c in self.msg[p]):
+                return self.msg[p][c]
             return ""
 
     def __init__ (self, *args, **kwargs):
