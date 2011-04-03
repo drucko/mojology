@@ -169,3 +169,13 @@ nav {
 	display: inline;
 	width: auto;
 }
+
+/* Footer */
+footer {
+	border-top: 1px dotted #a3a5a6;
+	text-align: center;
+	font-size: smaller;
+	padding: 25px 20px;
+	width: 80%;
+	margin: 0 auto;
+}

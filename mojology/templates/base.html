@@ -32,6 +32,12 @@
       {% endblock %}
     </section>
 
+    {% if g.mojology_version %}
+    <footer>
+      Mojology rev. <a href="https://github.com/algernon/mojology/commit/{{ g.mojology_version }}">#{{ g.mojology_version|truncate(8,True,'') }}</a>
+    </footer>
+    {% endif %}
+
     <script type=text/javascript>
       {% if hostname %}$BASE_URL = "{{ url_for ("browser.host", hostname = hostname) }}";{% else %}$BASE_URL = "{{ url_for ("browser.index") }}";{% endif %}
       $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};

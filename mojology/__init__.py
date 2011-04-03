@@ -35,6 +35,17 @@ def Mojology (config_file = None, config_object = None):
     app.register_module (browser)
     app.register_module (statsm, url_prefix = "/stats")
 
+    def version ():
+        try:
+            import os
+            from dulwich.repo import Repo
+
+            repo = Repo (os.path.join (os.path.dirname (__file__), ".."))
+
+            return repo.refs['refs/heads/master']
+        except:
+            return None
+    
     @app.template_filter ('datetime')
     def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
         return datetime.datetime.fromtimestamp (float (value)).strftime (format)
@@ -52,6 +63,7 @@ def Mojology (config_file = None, config_object = None):
         g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
         g.self_prefix = current_app.config['MOJOLOGY_COLLECTION_PREFIX']
         g.layout = current_app.config['MOJOLOGY_LAYOUT']
+        g.mojology_version = version ()
 
     @app.after_request
     def disconnect_mongo (response):
