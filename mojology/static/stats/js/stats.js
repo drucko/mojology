@@ -30,11 +30,15 @@ function stats_pie (target, legend, data) {
 			combine: {
 			    color: "#999",
 			    threshold: threshold
+			},
+			highlight: {
+			    opacity: 0
 			}
 		    }
 		},
 		grid: {
 		    hoverable: true,
+		    autoHighlight: false,
 		},
 		legend: {
 		    container: legend
