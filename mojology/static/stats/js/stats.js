@@ -1,5 +1,13 @@
+max_slices = 20;
+
 function stats_pie (target, legend, data) {
-    $.plot (target, data, {
+    var threshold = null;
+
+    if (data.data[max_slices - 1]) {
+	threshold = data.data[max_slices - 1].data / data.total;
+    }
+
+    $.plot (target, data.data, {
 		series: {
 		    pie: {
 			show: true,
@@ -18,6 +26,10 @@ function stats_pie (target, legend, data) {
 				color: "#000",
 				opacity: 0.5
 			    }
+			},
+			combine: {
+			    color: "#999",
+			    threshold: threshold
 			}
 		    }
 		},
@@ -28,6 +40,7 @@ function stats_pie (target, legend, data) {
 		    container: legend
 		},
 	    });
+
     legend.find ("table").css ("font-size", "");
     target.bind ("plothover", function (event, pos, item) {
 		     if (!item)
@@ -51,12 +64,14 @@ function stats_pie (target, legend, data) {
 function stats_setup (src, tick_field) {
     var res = {
 	data: [],
-	ts: 0
+	ts: 0,
+	total: 0
     };
 
     $.each (src, function (index, value) {
 		res.data.push ({ label: value._id, data: value.value.count});
 		res.ts = value.value.stamp['$date'];
+		res.total += value.value.count;
 	    });
     res.data = res.data.sort (function (a, b) { return b.data - a.data; });
 
@@ -141,12 +156,12 @@ $(document).ready (
 	if (typeof host_stats !== 'undefined') {
 	    r = stats_setup (host_stats);
 
-	    stats_pie ($("#host_stats_pie"), $("#host_stats_legend"), r.data);
+	    stats_pie ($("#host_stats_pie"), $("#host_stats_legend"), r);
 	}
 	if (typeof prog_stats !== 'undefined') {
 	    r = stats_setup (prog_stats);
 
-	    stats_pie ($("#prog_stats_pie"), $("#prog_stats_legend"), r.data);
+	    stats_pie ($("#prog_stats_pie"), $("#prog_stats_legend"), r);
 	}
 	if (typeof time_stats !== 'undefined') {
 	    r = {
