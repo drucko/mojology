@@ -58,6 +58,7 @@ function stats_setup (src, tick_field) {
 		res.data.push ({ label: value._id, data: value.value.count});
 		res.ts = value.value.stamp['$date'];
 	    });
+    res.data = res.data.sort (function (a, b) { return b.data - a.data; });
 
     return res;
 }
