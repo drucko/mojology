@@ -24,7 +24,9 @@ if len (sys.argv) > 1:
     if not os.path.exists (cfg_file):
         cfg_file = None
 else:
-    cfg_file = None
+    cfg_file = os.path.realpath (os.path.join (os.path.dirname (__file__), "local_settings.py"))
+    if not os.path.exists (cfg_file):
+        cfg_file = None
 
 app = Mojology (config_file = cfg_file)
 sites = {}
