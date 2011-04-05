@@ -14,7 +14,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask, g, current_app, redirect, abort
+from flask import Flask, g, current_app, redirect, abort, render_template
 import pymongo
 import datetime
 
@@ -69,6 +69,14 @@ def Mojology (config_file = None, config_object = None):
     def disconnect_mongo (response):
         g.mongo.disconnect ()
         return response
+
+    @app.errorhandler (404)
+    def handler_404 (error):
+        return render_template ('http_error.html', error = error), 404
+
+    @app.errorhandler (500)
+    def handler_500 (error):
+        return render_template ('http_error.html', error = error), 500
 
     @app.route ("/about")
     @app.route ("/about/")
