@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}{{ error.message }}{% endblock %}
+{% block title %}{{ error.message|safe }}{% endblock %}
 
 {% block content %}
 <section>
-  <h3>{{ error.message }}</h3>
+  <h3>{{ error.message|safe }}</h3>
 
   <p>
-    {{ error.description }}
+    {{ error.description|safe }}
   </p>
 </section>
 {% endblock %}
