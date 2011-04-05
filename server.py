@@ -16,10 +16,24 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from mojology import Mojology
-import os
+import os, sys
+from werkzeug.wsgi import DispatcherMiddleware
 
-cfg_file = os.path.realpath (os.path.join (os.path.dirname (__file__), "local_settings.py"))
-if not os.path.exists (cfg_file):
+if len (sys.argv) > 1:
+    cfg_file = os.path.realpath (sys.argv[1])
+    if not os.path.exists (cfg_file):
+        cfg_file = None
+else:
     cfg_file = None
 
-Mojology (config_file = cfg_file).run ()
+app = Mojology (config_file = cfg_file)
+sites = {}
+
+for site in sys.argv[2:]:
+    sapp = Mojology (config_file = os.path.realpath (site))
+    if not "MOJOLOGY_SITE_ROOT" in sapp.config:
+        raise SyntaxError, "'%s' does not set MOJOLOGY_SITE_ROOT" % site
+    sites[sapp.config['MOJOLOGY_SITE_ROOT']] = sapp.wsgi_app
+
+app.wsgi_app = DispatcherMiddleware (app.wsgi_app, sites)
+app.run ()
