@@ -55,19 +55,23 @@ def Mojology (config_file = None, config_object = None):
         try:
             g.mongo = pymongo.Connection (current_app.config['MONGO_HOST'], current_app.config['MONGO_PORT'])
         except pymongo.errors.ConnectionFailure, e:
-            abort (500)
+            abort (503)
         g.db = g.mongo[current_app.config['MONGO_DB']]
         g.coll = g.db[current_app.config['MONGO_COLLECTION']]
         if not g.coll:
-            abort (500)
+            abort (503)
         g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
         g.self_prefix = current_app.config['MOJOLOGY_COLLECTION_PREFIX']
         g.layout = current_app.config['MOJOLOGY_LAYOUT']
         g.mojology_version = version ()
+        current_app.disconnected = False
 
     @app.after_request
     def disconnect_mongo (response):
-        g.mongo.disconnect ()
+        try:
+            g.mongo.disconnect ()
+        except:
+            pass
         return response
 
     @app.errorhandler (404)
@@ -78,6 +82,10 @@ def Mojology (config_file = None, config_object = None):
     def handler_500 (error):
         return render_template ('http_error.html', error = error), 500
 
+    @app.errorhandler (503)
+    def handler_503 (error):
+        return render_template ('http_error.html', error = error), 503
+    
     @app.route ("/about")
     @app.route ("/about/")
     @templated ()
