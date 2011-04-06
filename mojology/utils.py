@@ -15,7 +15,8 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from functools import wraps
-from flask import request, render_template
+from flask import request, render_template, g, current_app, abort
+import pymongo
 
 def templated(template=None):
     def decorator(f):
@@ -31,5 +32,28 @@ def templated(template=None):
             elif not isinstance(ctx, dict):
                 return ctx
             return render_template(template_name, **ctx)
+        return decorated_function
+    return decorator
+
+def connected():
+    def decorator (cf):
+        @wraps(cf)
+        def decorated_function (*args, **kwargs):
+            try:
+                g.mongo = pymongo.Connection (current_app.config['MONGO_HOST'], current_app.config['MONGO_PORT'])
+            except pymongo.errors.ConnectionFailure, e:
+                abort (503)
+            g.db = g.mongo[current_app.config['MONGO_DB']]
+            g.coll = g.db[current_app.config['MONGO_COLLECTION']]
+            if not g.coll:
+                abort (503)
+            g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
+            g.self_prefix = current_app.config['MOJOLOGY_COLLECTION_PREFIX']
+            g.layout = current_app.config['MOJOLOGY_LAYOUT']
+            g.mojology_version = current_app.version
+            r = cf (*args, **kwargs)
+            g.mongo.disconnect ()
+            return r
+
         return decorated_function
     return decorator

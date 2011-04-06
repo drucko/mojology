@@ -17,7 +17,7 @@
 ## ----------------------------------------------
 ## - This file implements the log browser views -
 ## ----------------------------------------------
-from mojology.utils import templated
+from mojology.utils import templated, connected
 
 from flask import Module, g, url_for, render_template, Markup, abort
 import pymongo.objectid
@@ -54,12 +54,14 @@ def get_logs (spec, page, extra = None):
 @browser.route ("/")
 @browser.route ("/page/<int(min=1):page>")
 @templated ()
+@connected ()
 def index (page = 1):
     return get_logs (None, page)
 
 @browser.route ("/host/<hostname>/")
 @browser.route ("/host/<hostname>/page/<int(min=1):page>")
 @templated ()
+@connected ()
 def host(hostname, page = 1):
     d = get_logs ({g.layout.fields['host']: hostname}, page, { 'hostname': hostname })
     if d['logs'].count () == 0:
@@ -68,6 +70,7 @@ def host(hostname, page = 1):
 
 @browser.route("/log/<logid>")
 @templated ()
+@connected ()
 def log (logid):
     try:
         oid = pymongo.objectid.ObjectId (logid)
@@ -83,5 +86,6 @@ def log (logid):
                  layout = g.layout)
 
 @browser.route ("/log/<logid>/dyn")
+@connected ()
 def log_dyn (logid):
     return log (logid)

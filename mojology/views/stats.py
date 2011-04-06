@@ -17,7 +17,7 @@
 ## ---------------------------------------------
 ## - This file implements the statistics views -
 ## ---------------------------------------------
-from mojology.utils import templated
+from mojology.utils import templated, connected
 
 from flask import Module, g, Markup, redirect, url_for
 import pymongo.objectid, pymongo.json_util
@@ -28,6 +28,7 @@ statsm = Module (__name__)
 
 @statsm.route ("/")
 @templated ()
+@connected ()
 def index():
     return redirect (url_for ("stats.hosts"))
 
@@ -41,17 +42,20 @@ def _mr_dump (subtable):
 @statsm.route ("/hosts")
 @statsm.route ("/hosts/")
 @templated ()
+@connected ()
 def hosts ():
     return dict (host_stats = _mr_dump ('hosts'))
 
 @statsm.route ("/programs")
 @statsm.route ("/programs/")
 @templated ()
+@connected ()
 def programs ():
     return dict (prog_stats = _mr_dump ('programs'))
 
 @statsm.route ("/time")
 @statsm.route ("/time/")
 @templated ()
+@connected ()
 def time ():
     return dict (time_stats = _mr_dump ('time'))

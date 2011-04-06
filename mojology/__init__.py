@@ -14,8 +14,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from flask import Flask, g, current_app, redirect, abort, render_template
-import pymongo
+from flask import Flask, g, redirect, abort, render_template
 import datetime
 
 from mojology.utils import templated
@@ -50,30 +49,6 @@ def Mojology (config_file = None, config_object = None):
     def datetimeformat (value, format='%Y-%m-%d %H:%M:%S'):
         return datetime.datetime.fromtimestamp (float (value)).strftime (format)
 
-    @app.before_request
-    def connect_mongo ():
-        try:
-            g.mongo = pymongo.Connection (current_app.config['MONGO_HOST'], current_app.config['MONGO_PORT'])
-        except pymongo.errors.ConnectionFailure, e:
-            abort (503)
-        g.db = g.mongo[current_app.config['MONGO_DB']]
-        g.coll = g.db[current_app.config['MONGO_COLLECTION']]
-        if not g.coll:
-            abort (503)
-        g.pagesize = current_app.config['MOJOLOGY_PAGESIZE']
-        g.self_prefix = current_app.config['MOJOLOGY_COLLECTION_PREFIX']
-        g.layout = current_app.config['MOJOLOGY_LAYOUT']
-        g.mojology_version = version ()
-        current_app.disconnected = False
-
-    @app.after_request
-    def disconnect_mongo (response):
-        try:
-            g.mongo.disconnect ()
-        except:
-            pass
-        return response
-
     @app.errorhandler (404)
     def handler_404 (error):
         return render_template ('http_error.html', error = error), 404
@@ -96,4 +71,5 @@ def Mojology (config_file = None, config_object = None):
     def dashboard ():
         redirect (url_for ("browser.index"))
 
+    app.version = version ()
     return app
