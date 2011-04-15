@@ -16,7 +16,7 @@
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from mojology import Mojology
-from mojology.db import DefaultLayout
+from mojology.db.layout import DefaultLayout
 import unittest
 import pymongo, pymongo.json_util
 import json

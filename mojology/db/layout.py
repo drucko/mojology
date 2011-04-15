@@ -14,7 +14,7 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class DefaultLayout:
+class ValuePairsLayout:
     msg = None
     headers = None
     fields = None
@@ -95,7 +95,7 @@ class DefaultLayout:
 
         return ""
 
-class OldLayout:
+class DynLayout:
     msg = None
     headers = None
     fields = None
@@ -180,3 +180,6 @@ class OldLayout:
             self.keys[name] = self.msg['dyn'][key]
 
         return ""
+
+class DefaultLayout (ValuePairsLayout):
+    pass
