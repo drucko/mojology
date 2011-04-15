@@ -21,6 +21,8 @@ class ValuePairsLayout:
     sort_on = None
     keys = None
 
+    do_lists = False
+
     def _get_key (self, key):
         if key in self.msg:
             return self.msg[key]
@@ -30,9 +32,10 @@ class ValuePairsLayout:
     def __init__ (self, *args, **kwargs):
         self.setup (*args, **kwargs)
 
-    def setup (self, msg = None):
+    def setup (self, msg = None, do_lists = False):
         if msg:
             self.set_msg (msg)
+        self.do_lists = do_lists
 
         self.headers = [
             {
@@ -91,7 +94,10 @@ class ValuePairsLayout:
                     name = key.capitalize ()
                 else:
                     name = key
-                self.keys[name] = self.msg[key]
+                if self.do_lists and ((key.rfind ("_LIST") == len(key) - 5) or key in [ 'TAGS' ]):
+                    self.keys[name] = self.msg[key].split (",")
+                else:
+                    self.keys[name] = self.msg[key]
 
         return ""
 

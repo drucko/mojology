@@ -34,6 +34,9 @@ def log_entry_dump (v):
     if type(v) == dict:
         return Markup (render_template ("browser/subtable.html", vars = v,
                                         mojology_dump = log_entry_dump))
+    elif type(v) == list:
+        return Markup (render_template ("browser/list.html", vars = v,
+                                        mojology_dump = log_entry_dump))
     else:
         return str (v)
 
