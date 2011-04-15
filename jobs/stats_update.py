@@ -39,5 +39,5 @@ def mr (map_js, out):
 
 mr ("function () { emit(this.%s, { count: 1 }); }" % layout.fields['program'], "programs")
 mr ("function () { emit(this.%s, { count: 1 }); }" % layout.fields['host'], "hosts")
-mr ("function () { var d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); emit(d.valueOf(), { count: 1 }); }" % layout.fields['date'],
+mr ("function () { var maxDate = new Date(); maxDate.setHours (maxDate.getHours() - 1); var d = new Date (this.%s*1000); d.setMinutes(0); d.setSeconds(0); if (d < maxDate) { emit(d.valueOf(), { count: 1 }); } }" % layout.fields['date'],
     "time")
