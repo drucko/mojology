@@ -91,7 +91,7 @@ class ValuePairsLayout:
             if key not in ['DATE', 'HOST', 'FACILITY', 'PRIORITY', 'PROGRAM',
                            'PID', 'MESSAGE', '_id']:
                 if key.upper () == key:
-                    name = key.capitalize ()
+                    name = key.replace ("_", " ").capitalize ()
                 else:
                     name = key
                 if self.do_lists and ((key.rfind ("_LIST") == len(key) - 5) or key in [ 'TAGS' ]):
@@ -180,7 +180,7 @@ class DynLayout:
         self.keys = dict ()
         for key in self.msg['dyn']:
             if key.upper () == key:
-                name = key.capitalize ()
+                name = key.replace ("_", " ").capitalize ()
             else:
                 name = key
             self.keys[name] = self.msg['dyn'][key]
